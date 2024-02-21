@@ -11,7 +11,6 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./django/static:/home/app/static
-      - ./django/staticfiles:/home/app/staticfiles
     ports:
       - 8087:80
       - 8447:443

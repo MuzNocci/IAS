@@ -43,7 +43,7 @@
                         {% if client.photo %}
                             <img src="{% static 'system/images/customers/' %}{{ logged_data.business }}/{{ client.photo   }}" width="100%" style="border-radius:10px;" alt="IAS" />
                         {% else %}
-                            {% if client.photo == 'F' %}
+                            {% if client.sex == 'F' %}
                                 <img src="{% static 'system/images/customers/' %}customer_woman.png" width="100%" style="border-radius:10px;" alt="IAS" />
                             {% else %}
                                 <img src="{% static 'system/images/customers/' %}customer_man.png" width="100%" style="border-radius:10px;" alt="IAS" />
