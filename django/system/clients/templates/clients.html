@@ -1,0 +1,180 @@
+{% extends "components/_base.html" %}
+{% load static %}
+
+{% block title %}<title>IAS | Clientes</title>{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb breadcrumb-chevron p-3 bg-light-primary rounded">
+                    <li class="breadcrumb-item">
+                    <a class="link-body-emphasis" href="{% url 'dashboard' %}">
+                        <i class="ti ti-home"></i>
+                        <span class="visually-hidden">Home</span>
+                    </a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        Clientes
+                    </li>
+                </ol>
+            </nav>
+
+            {% if alert %}
+            <div id="info" name="info" class="row">
+                <div class="col-md-12">
+                    <div class="alert {{ type_alert }} mb-3" role="alert">
+                        <p class="mb-0">{{ alert }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="row mb-3" style="margin-top:-1rem;">
+                <div class="col-md-12">
+                    <div class="body-card mt-3 ta-right">
+                        <a href="{% url 'dashboard' %}" class="btn btn-dark" style="margin-right:5px;" alt="Voltar" title="Voltar"><i class="ti ti-arrow-back-up"></i></a>
+                        <button id="btn_print" type="submit" class="btn btn-primary" style="margin-right:5px;" title="Imprimir" alt="Imprimir"><i class="ti ti-printer"></i></button>
+                        <a href="{% url 'client_register' %}"><button type="submit" class="btn btn-primary"><i class="ti ti-plus"></i> Novo Cliente</button></a>
+                    </div>
+                </div>                    
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-0">
+                        <div class="card-body">
+
+                        <form action="{% url 'clients' %}" id="exibition" name="exibition">
+                            <div class="row">
+
+                                <div class="col-md-5 mb-3">
+                                    <div class="body-card">
+                                        <input type="text" class="form-control" id="search" name="search" placeholder="Pesquisar por [Nome, Empresa ou E-mail]" value="{% if search %}{{ search }}{% endif %}" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 mb-0">
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <select name="show" id="show" class="form-select" style="margin-left:auto;" aria-label="Default select example" onchange="document.forms['exibition'].submit();">
+                                        <option value="10"{% if show == '10' or show == '' %} selected{% endif %}>Exibir 10 por página</option>
+                                        <option value="25"{% if show == '25' %} selected{% endif %}>Exibir 25 por página</option>
+                                        <option value="50"{% if show == '50' %} selected{% endif %}>Exibir 50 por página</option>
+                                        <option value="100"{% if show == '100' %} selected{% endif %}>Exibir 100 por página</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </form>
+
+                            <div>
+                                <nav aria-label="Navegação de página exemplo">
+                                    <ul class="pagination justify-content-end mt-0 mb-3">
+
+                                    {% if pages.has_previous %}
+                                        <li class="page-item"><a class="page-link" href="?search={{ search }}&show={{ show }}&page={{ pages.previous_page_number }}"><i class="ti ti-chevrons-left"></i></a></li>
+                                    {% else %}
+                                        <li class="page-item disabled"><a class="page-link" href="#"><i class="ti ti-chevrons-left"></i></a></li>
+                                    {% endif %}
+
+                                    {% for i in pages.paginator.page_range %}
+                                        {% if pages.number == i %}
+                                            <li class="page-item active"><a class="page-link">{{ i }}</a></li>
+                                        {% else %}
+                                            <li class="page-item"><a href="?search={{ search }}&show={{ show }}&page={{ i }}" class="page-link">{{ i }}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+
+                                    {% if pages.has_next %}
+                                        <li class="page-item"><a class="page-link" href="?search={{ search }}&show={{ show }}&page={{ pages.next_page_number }}"><i class="ti ti-chevrons-right"></i></a></li>
+                                    {% else %}
+                                        <li class="page-item disabled"><a class="page-link" href="#"><i class="ti ti-chevrons-right"></i></a></li>
+                                    {% endif %}
+
+                                    </ul>
+                                </nav>
+                            </div>
+
+                            <div id="print" style="overflow-x: auto;">
+                                <table class="table table-hover mt-0 mb-3">
+                                    <thead>
+                                        <tr style="background-color:#EAEFF4; cursor: auto; text-align:left;">
+                                            <th scope="col" style="min-width: 70px;">Foto</th>
+                                            <th scope="col" style="min-width: 250px;">Nome</th>
+                                            <th scope="col" style="min-width: 200px;">Empresa</th>
+                                            <th scope="col" style="min-width: 250px;">E-mail</th>
+                                            <th scope="col" style="width: 150px; min-width: 200px;">Celular</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% if pages %}
+                                        {% for client in pages %}                        
+                                        <tr onclick="location.href='/auth/client/{{ client.id }}'">
+                                            <th scope="row">
+                                                {% if client.photo != '' %}
+                                                <img src="{% static 'system/images/customers/' %}{{ logged_data.business }}/{{ client.photo }}" style="border-radius:50%; width:35px; height:35px;" alt="" />
+                                                {% else %}
+                                                    {% if client.sex != 'F' %}
+                                                    <img src="{% static 'system/images/customers/customer_man.png' %}" style="border-radius:50%; width:35px; height:35px;" alt="" />
+                                                    {% else %}
+                                                    <img src="{% static 'system/images/customers/customer_woman.png' %}" style="border-radius:50%; width:35px; height:35px;" alt="" />
+                                                    {% endif %}
+                                                {% endif %}
+                                            </th>
+                                            <td style="line-height:35px;">{{ client.name }}</td>
+                                            <td style="line-height:35px;">{{ client.surname }}</td>
+                                            <td style="line-height:35px;">{{ client.email }}</td>
+                                            <td style="line-height:35px;">{{ client.phone }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        <tr>
+                                            <td style="line-height:35px; text-align:left; color:#990000;" colspan="5">Não foram encontrados clientes no cadastro.</td>
+                                        </tr>
+                                    {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div>
+                                <nav aria-label="Navegação de página exemplo">
+                                    <ul class="pagination justify-content-end mt-0 mb-0">
+
+                                    {% if pages.has_previous %}
+                                        <li class="page-item"><a class="page-link" href="?search={{ search }}&show={{ show }}&page={{ pages.previous_page_number }}"><i class="ti ti-chevrons-left"></i></a></li>
+                                    {% else %}
+                                        <li class="page-item disabled"><a class="page-link" href="#"><i class="ti ti-chevrons-left"></i></a></li>
+                                    {% endif %}
+
+                                    {% for i in pages.paginator.page_range %}
+                                        {% if pages.number == i %}
+                                            <li class="page-item active"><a class="page-link">{{ i }}</a></li>
+                                        {% else %}
+                                            <li class="page-item"><a href="?search={{ search }}&show={{ show }}&page={{ i }}" class="page-link">{{ i }}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+
+                                    {% if pages.has_next %}
+                                        <li class="page-item"><a class="page-link" href="?search={{ search }}&show={{ show }}&page={{ pages.next_page_number }}"><i class="ti ti-chevrons-right"></i></a></li>
+                                    {% else %}
+                                        <li class="page-item disabled"><a class="page-link" href="#"><i class="ti ti-chevrons-right"></i></a></li>
+                                    {% endif %}
+
+                                    </ul>
+                                </nav>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'components/_base.html' %}
+{% load static %}
+
+{% block title %}<title>IAS | Notificações</title>{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb breadcrumb-chevron p-3 bg-light-primary rounded">
+                    <li class="breadcrumb-item">
+                    <a class="link-body-emphasis" href="{% url 'dashboard' %}">
+                        <i class="ti ti-home"></i>
+                        <span class="visually-hidden">Home</span>
+                    </a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        Notificações
+                    </li>
+                </ol>
+            </nav>
+            <h5 class="card-title fw-semibold mb-4">Notificações</h5>
+            <p class="mb-0">Página de notificações do sistema.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

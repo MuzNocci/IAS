@@ -1,0 +1,78 @@
+version: '3.9'
+
+
+services:
+
+  nginx:
+    container_name: "ias_nginx"
+    restart: always
+    build: 
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    volumes:
+      - ./django/static:/home/app/static
+      - ./django/staticfiles:/home/app/staticfiles
+    ports:
+      - 8087:80
+      - 8447:443
+    depends_on:
+      - django001
+    networks:
+      - internet
+
+  django001:
+    container_name: "ias_django"
+    restart: always
+    tty: true
+    build:
+      context: ./django
+      dockerfile: Dockerfile
+    volumes:
+      - ./django/static:/home/app/static
+    command: gunicorn core.wsgi --bind 0.0.0.0:8002
+    env_file:
+      - "./django/.env"
+    depends_on:
+      - db
+    networks:
+      - internet
+      - intranet
+
+  redis:
+    container_name: "ias_redis"
+    restart: always
+    build:
+      context: ./docker/redis
+      dockerfile: Dockerfile
+    volumes:
+      - ./docker/redis:/var/lib/redis
+    networks:
+      - intranet
+
+  db:
+    container_name: ias_database
+    restart: always
+    build:
+      context: ./docker/postgresql/
+      dockerfile: Dockerfile
+    volumes:
+      - ./docker/postgresql/data/:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=ias_database
+      - POSTGRES_USER=ias_user
+      - POSTGRES_PASSWORD=muHias@9902
+    ports:
+      - 5433:5432
+    networks:
+      - intranet
+
+
+networks:
+
+  internet:
+    driver: bridge
+    external: false
+
+  intranet:
+    driver: bridge
+    external: false

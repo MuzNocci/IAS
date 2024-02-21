@@ -1,0 +1,413 @@
+{% extends 'components/_base.html' %}
+{% load static %}
+
+{% block title %}<title>IAS | Cliente</title>{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb breadcrumb-chevron p-3 bg-light-primary rounded">
+                    <li class="breadcrumb-item">
+                    <a class="link-body-emphasis" href="{% url 'dashboard' %}">
+                        <i class="ti ti-home"></i>
+                        <span class="visually-hidden">Home</span>
+                    </a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        <a class="link-body-emphasis text-decoration-none" href="{% url 'clients' %}">Clientes</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        Cliente
+                    </li>
+                </ol>
+            </nav>
+
+            <div class="row mb-3" style="margin-top:-1rem;">
+                <div class="col-md-12">
+                    <div class="body-card mt-3 ta-right">
+                        <p style="text-align: right; margin-bottom: 0;">
+                            <a href="{% url 'clients' %}" class="btn btn-dark" style="margin-right:5px;" alt="Voltar" title="Voltar"><i class="ti ti-arrow-back-up"></i></a> <a href="/client/edit/{{ client.id }}" class="btn btn-primary" style="margin-right:5px;" alt="Editar" title="Editar"><i class="ti ti-edit"></i> Editar</a> <a href="/client/delete/{{ client.id }}" class="btn btn-danger" alt="Deletar" title="Deletar"><i class="ti ti-trash"></i> Deletar</a>
+                        </p>
+                    </div>
+                </div>                    
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+
+                        <h5 class="card-text mb-3">Foto: </h5>
+                        {% if client.photo %}
+                            <img src="{% static 'system/images/customers/' %}{{ logged_data.business }}/{{ client.photo   }}" width="100%" style="border-radius:10px;" alt="IAS" />
+                        {% else %}
+                            {% if client.photo == 'F' %}
+                                <img src="{% static 'system/images/customers/' %}customer_woman.png" width="100%" style="border-radius:10px;" alt="IAS" />
+                            {% else %}
+                                <img src="{% static 'system/images/customers/' %}customer_man.png" width="100%" style="border-radius:10px;" alt="IAS" />
+                            {% endif %}
+                        {% endif %}
+
+                        <h5 class="mt-4_2 mb-2">Contatos:</h5>
+
+                        <div class="row" style="align-items: center; color: #EAEFF4;">
+                            <div style="position:relative; width:33%; text-align:center; ">
+                                {% if client.phone %}
+                                <a target="_blanc" href="tel:+55{{ phone_treated }}">
+                                    <i class="ti ti-phone" style="font-size:30pt;"></i>
+                                </a>
+                                {% else %}
+                                <i class="ti ti-phone" style="font-size:30pt;"></i>
+                                {% endif %}
+                            </div>
+                            <div style="position:relative; width:33%; text-align:center;">
+                                {% if client.phone and client.whatsapp == 1 %}
+                                <a target="_blanc" href="https://wa.me/55{{ phone_treated }}">
+                                    <i class="ti ti-brand-whatsapp" style="font-size:30pt;"></i>
+                                </a>
+                                {% else %}
+                                <i class="ti ti-brand-whatsapp" style="font-size:30pt;"></i>
+                                {% endif %}
+                            </div>
+                            <div style="position:relative; width:33%; text-align:center;">
+                                {% if client.email %}
+                                <a target="_blanc" href="mailto:{{ client.email }}">
+                                    <i class="ti ti-mail" style="font-size:30pt;"></i>
+                                </a> 
+                                {% else %}
+                                <i class="ti ti-mail" style="font-size:30pt;"></i>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        </div>
+                    </div>
+                </div> 
+
+                <div class="col-md-8">
+                    <div class="card mb-3">
+                        <div class="card-body">
+
+                            <div class="row">
+                                <div class="col-md-12 mb-3">
+                                    <h5 class="card-text">Id: #{{ client.id }}</h5>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <table class="table mt-0 mb-3">
+                                    <tr style="background-color:#EAEFF4; cursor: auto">
+                                        <th style="minwidth: 250px;">Dados Pessoais</th>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="card-text">Nome: </h5>
+                                    <p class="card-text">{{ client.name }}</p>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="card-text">CPF: </h5>
+                                    {% if client.register and client.register != '' %}
+                                        {% if logged_data.level <= 2 %}
+                                        <p class="card-text">{{ client.register }}</p>
+                                        {% else %}
+                                        <p class="card-text">{{ client.register | slice:'0:6' }}*.***-**</p>
+                                        {% endif %}
+                                    {% else %}
+                                    <p class="card-text" style="color:#990000;">Não Informado</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="card-text">Sexo: </h5>
+                                    {% if client.sex %}
+                                    <p class="card-text">{{ sex_treated }}</p>
+                                    {% else %}
+                                    <p class="card-text" style="color:#990000;">Não Informado</p>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="card-text">Data Nascimento: </h5>
+                                    {% if client.birthday and client.birthday != '0000-00-00' %}
+                                    <p class="card-text">{{ birthday_treated }}</p>
+                                    {% else %}
+                                    <p class="card-text" style="color:#990000;">Não Informado</p>
+                                    {% endif %}
+                                </div>
+                            </div> 
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="card-text">E-mail: </h5>
+                                    {% if client.email %}
+                                    <p class="card-text">{{ client.email }}</p>
+                                    {% else %}
+                                    <p class="card-text" style="color:#990000;">Não Informado</p>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="card-text">E-mail Marketing: </h5>
+                                    {% if client.email_marketing == 1 %}
+                                    <p class="card-text">Sim</p>
+                                    {% else %}
+                                    <p class="card-text">Não</p>
+                                    {% endif %}
+                                </div>
+                            </div> 
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="card-text">Celular: </h5>
+                                    {% if client.phone %}
+                                    <p class="card-text">{{ client.phone}}</p>
+                                    {% else %}
+                                    <p class="card-text" style="color:#990000;">Não Informado</p>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6 mb-4_2">
+                                    <h5 class="card-text">What's App: </h5>
+                                    {% if client.whatsapp == 1 %}
+                                    <p class="card-text">Sim</p>
+                                    {% else %}
+                                    <p class="card-text">Não</p>
+                                    {% endif %}
+                                </div>
+                            </div> 
+
+                            <div class="row">
+                                <table class="table mt-0 mb-3">
+                                    <tr style="background-color:#EAEFF4; cursor: auto">
+                                        <th style="minwidth: 250px;">Dados Profissionais</th>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="card-text">Empresa / Nome Fantasia: </h5>
+                                    {% if client.surname %}
+                                    <p class="card-text">{{ client.surname }}</p>
+                                    {% else %}
+                                    <p class="card-text" style="color:#990000;">Não Informado</p>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="card-text">CNPJ: </h5>
+                                    {% if client.registration and client.registration != '' %}
+                                        {% if logged_data.level <= 2 %}
+                                        <p class="card-text">{{ client.registration }}</p>
+                                        {% else %}
+                                        <p class="card-text">{{ client.registration | slice:'0:6' }}.***/****-**</p>
+                                        {% endif %}
+                                    {% else %}
+                                    <p class="card-text" style="color:#990000;">Não Informado</p>
+                                    {% endif %}
+                                </div>
+                            </div> 
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="card-text">Setor: </h5>
+                                    {% if client.sector %}
+                                    <p class="card-text">{{ client.sector }}</p>
+                                    {% else %}
+                                    <p class="card-text" style="color:#990000;">Não Informado</p>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="card-text">Cargo: </h5>
+                                    {% if client.jobposition %}
+                                    <p class="card-text">{{ client.jobposition }}</p>
+                                    {% else %}
+                                    <p class="card-text" style="color:#990000;">Não Informado</p>
+                                    {% endif %}
+                                </div>
+                            </div> 
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="card-text">ICMS: </h5>
+                                    <p class="card-text">{% if client.icms_exempt %}Sim{% else %}Não{% endif %}</p>
+                                </div>
+                                <div class="col-md-6 mb-4_2">
+                                    <h5 class="card-text">Simples Nacional: </h5>
+                                    <p class="card-text">{% if client.simple_tax %}Sim{% else %}Não{% endif %}</p>
+                                </div>
+                            </div> 
+                            
+                            <div class="row">
+                                <table class="table mt-0 mb-3">
+                                    <tr style="background-color:#EAEFF4; cursor: auto">
+                                        <th style="minwidth: 250px;">Endereço</th>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 mb-3">
+                                    <h5 class="card-text">CEP: </h5>
+                                    {% if client.zipcode %}
+                                    <p class="card-text">{{ client.zipcode }}</p>
+                                    {% else %}
+                                    <p class="card-text" style="color:#990000;">Não Informado</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="card-text">Endereço: </h5>
+                                    {% if client.address %}
+                                    <p class="card-text">{{ client.address }}</p>
+                                    {% else %}
+                                    <p class="card-text" style="color:#990000;">Não Informado</p>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-2 mb-3">
+                                    <h5 class="card-text" style="min-width:120px;">Número: </h5>
+                                    {% if client.number_address %}
+                                    <p class="card-text">{{ client.number_address }}</p>
+                                    {% else %}
+                                    <p class="card-text" style="color:#990000;">S/N</p>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <h5 class="card-text">Complemento: </h5>
+                                    {% if client.address_complement %}
+                                    <p class="card-text">{{ client.address_complement }}</p>
+                                    {% else %}
+                                    <p class="card-text" style="color:#990000;">Não Informado</p>
+                                    {% endif %}
+                                </div>
+                            </div> 
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="card-text">Bairro / Distrito: </h5>
+                                    {% if client.dictrict %}
+                                    <p class="card-text">{{ client.district }}</p>
+                                    {% else %}
+                                    <p class="card-text" style="color:#990000;">Não Informado</p>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="card-text">Cidade: </h5>
+                                    {% if client.city %}
+                                    <p class="card-text">{{ client.city }}</p>
+                                    {% else %}
+                                    <p class="card-text" style="color:#990000;">Não Informado</p>
+                                    {% endif %}
+                                </div>
+                            </div> 
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="card-text">Estado: </h5>
+                                    {% if client.state %}
+                                    <p class="card-text">{{ client.state }}</p>
+                                    {% else %}
+                                    <p class="card-text" style="color:#990000;">Não Informado</p>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6 mb-4_2">
+                                    <h5 class="card-text">País: </h5>
+                                    {% if client.country %}
+                                    <p class="card-text">{{ client.country }}</p>
+                                    {% else %}
+                                    <p class="card-text" style="color:#990000;">Não Informado</p>
+                                    {% endif %}
+                                </div>
+                            </div> 
+
+                            <div class="row">
+                                <table class="table mt-0 mb-3">
+                                    <tr style="background-color:#EAEFF4; cursor: auto">
+                                        <th style="minwidth: 250px;">Informações</th>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 mb-4_2">
+                                    <h5 class="card-text">Observação: </h5>
+                                    {% if client.observation %}
+                                    <p class="card-text">{{ client.observation }}</p>
+                                    {% else %}
+                                    <p class="card-text" style="color:#990000;">Nenhuma observação informada.</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <table class="table mt-0 mb-3">
+                                    <tr style="background-color:#EAEFF4; cursor: auto">
+                                        <th style="minwidth: 250px;">Cadastro do Cliente</th>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="card-text">Cadastrado por: </h5>
+                                    {% if client.created_by %}
+                                    <p class="card-text">{{ client.created_by }}</p>
+                                    {% else %}
+                                    <p class="card-text" style="color:#990000;">Não Informado</p>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6 mb-4_2">
+                                    <h5 class="card-text">Cadastrado em: </h5>
+                                    {% if client.created_at %}
+                                    <p class="card-text">{{ client.created_at.date|date:'d/m/Y' }} às {{ client.created_at.time|time:'H:M' }}</p>
+                                    {% else %}
+                                    <p class="card-text" style="color:#990000;">Não Informado</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <table class="table mt-0 mb-0">
+                                    <tr style="background-color:#EAEFF4; cursor: auto">
+                                        <th style="minwidth: 250px;">Atualização do cadastro</th>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mt-3 mb-0">
+                                    <h5 class="card-text">Atualizado por: </h5>
+                                    {% if client.updated_by %}
+                                    <p class="card-text">{{ client.updated_by }}</p>
+                                    {% else %}
+                                    <p class="card-text" style="color:#990000;">Não Informado</p>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6 mt-3 mb-0">
+                                    <h5 class="card-text">Atualizado em: </h5>
+                                    {% if client.updated_at %}
+                                    <p class="card-text">{{ client.updated_at.date|date:'d/m/Y' }} às {{ client.updated_at.time|time:'H:M' }}</p>
+                                    {% else %}
+                                    <p class="card-text" style="color:#990000;">Não Informado</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="mt-0 mb-0 ta-right">
+                <a href="{% url 'clients' %}" class="btn btn-dark" style="margin-right:5px;" alt="Voltar" title="Voltar"><i class="ti ti-arrow-back-up"></i></a> <a href="/client/edit/{{ client.id }}" class="btn btn-primary" style="margin-right:5px;" alt="Editar" title="Editar"><i class="ti ti-edit"></i> Editar</a> <a href="/client/delete/{{ client.id }}" class="btn btn-danger" alt="Deletar" title="Deletar"><i class="ti ti-trash"></i> Deletar</a>
+            </p>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

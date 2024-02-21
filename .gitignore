@@ -1,0 +1,4 @@
+/venv/
+/django/.env
+.env
+/docker/postgresql/data/

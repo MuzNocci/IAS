@@ -1,0 +1,16 @@
+                                    <div class="row gallery">
+                                        <div class="gallery_container" style="width:calc(100% * {{ $mediacount }});">
+                                        @foreach ($media as $image)
+                                            
+                                            <div class="gallery_item">
+                                                <div class="gallery_subitem mt-3" style="position:relative;">
+                                                    <img src="{{ URL::asset('assets') }}/images/products/{{ $image->link }}" width="100%" style="border-radius:10px; border:1px solid #EAEFF4;" alt="IAS" />
+                                                    @if ($image->default == 1)
+                                                    <i class="ti ti-circle-check-filled" style="position:absolute; bottom:5px; right:5px; font-size:30px; color:green;" alt="Imagem principal" title="Imagem principal"></i>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            
+                                        @endforeach
+                                        </div>
+                                    </div>

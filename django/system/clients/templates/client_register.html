@@ -1,0 +1,314 @@
+{% extends "components/_base.html" %}
+{% load static %}
+
+{% block title %}<title>IAS | Cadastro de Cliente</title>{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <form method="post" action="{% url 'client_register' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb breadcrumb-chevron p-3 bg-light-primary rounded">
+                    <li class="breadcrumb-item">
+                    <a class="link-body-emphasis" href="{% url 'dashboard' %}">
+                        <i class="ti ti-home"></i>
+                        <span class="visually-hidden">Home</span>
+                    </a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a class="link-body-emphasis text-decoration-none" href="{% url 'clients' %}">Clientes</a>
+                      </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        Cadastro
+                    </li>
+                </ol>
+              </nav>
+
+              {% if alert %}
+              <div id="info" name="info" class="row">
+                  <div class="col-md-12">
+                      <div class="alert {{ type_alert }} mb-3" role="alert">
+                          <p class="mb-0">{{ alert }}</p>
+                      </div>
+                  </div>
+              </div>
+              {% endif %}
+
+              <div class="row mb-3" style="margin-top:-1rem;">
+                  <div class="col-md-12">
+                      <div class="body-card mt-3 ta-right">
+                          <p style="text-align: right; margin-bottom: 0;">
+                              <a href="{% url 'clients' %}" class="btn btn-dark" alt="Voltar" title="Voltar" style="margin-right:5px;"><i class="ti ti-arrow-back-up"></i></a> <button type="submit" class="btn btn-primary" alt="Salvar" title="Salvar" style="margin-right:5px;"><i class="ti ti-device-floppy"></i> Salvar</button>
+                          </p>
+                      </div>
+                  </div>                    
+              </div>
+          
+              <div class="row">
+                  <div class="col-md-4">
+                      <div class="card">
+                          <div class="card-body">
+
+                          <h5 class="card-text">Foto: </h5>
+
+                          <img id="imgphoto" src="{% static 'system/images/customers/customer_man.png' %}" width="100%" style="border-radius:10px;" alt="IAS" />
+
+                          <div style="position: relative; margin-top:10px; text-align:center; width:100%;">(Tamanho máximo 2MB)</div>
+                          <p class="card-text">
+                              <input type="file" class="form-control" style="margin-top:5px; width:100%;" id="photo" name="photo" value="" />
+                          </p>
+
+                          </div>
+                      </div>
+                  </div> 
+
+                  <div class="col-md-8">
+                      <div class="card mb-3">
+                          <div class="card-body">
+
+                              <div class="row">
+                                  <table class="table mt-0 mb-3">
+                                      <tr style="background-color:#EAEFF4; cursor: auto">
+                                          <th style="minwidth: 250px;">Dados Pessoais</th>
+                                      </tr>
+                                  </table>
+                              </div>
+
+                              <div class="row">
+                                  <div class="col-md-6 mb-3">
+                                      <h5 class="card-text">Nome: </h5>
+                                      <p class="card-text">
+                                          <input type="text" class="form-control" id="name" name="name" value="" required/>
+                                      </p>
+                                  </div>
+                                  <div class="col-md-6 mb-3">
+                                      <h5 class="card-text">CPF: </h5>
+                                      <input type="text" class="form-control" id="cpf" name="cpf" minlength="14" maxlength="14" value="" onkeydown="javascript: fMasc( this, mCPF );"/>
+                                  </div>
+                              </div>
+
+                              <div class="row">
+                                  <div class="col-md-6 mb-3">
+                                      <h5 class="card-text">Sexo: </h5>
+                                      <select name="sex" id="sex" class="form-select" aria-label="Default select example">
+                                          <option value="">Não Informado</option>
+                                          <option value="M">Masculino</option>
+                                          <option value="F">Feminino</option>
+                                          <option value="O">Outro</option>
+                                      </select>
+                                  </div>
+                                  <div class="col-md-6 mb-3">
+                                      <h5 class="card-text">Data Nascimento: </h5>
+                                      <input type="date" class="form-control" id="birthday" name="birthday" value="" maxlength="10"/>
+                                  </div>
+                              </div> 
+
+                              <div class="row">
+                                  <div class="col-md-6 mb-3">
+                                      <h5 class="card-text">E-mail: </h5>
+                                      <input type="email" class="form-control" id="email" name="email" value=""/>
+                                  </div>
+                                  <div class="col-md-6 mb-3">
+                                      <h5 class="card-text">E-mail Marketing: </h5>
+                                      <select name="email_marketing" id="email_marketing" class="form-select" aria-label="Default select example">
+                                          <option value=1>Sim</option>
+                                          <option value=0 selected>Não</option>
+                                      </select>
+                                  </div>
+                              </div> 
+
+                              <div class="row">
+                                  <div class="col-md-6 mb-3">
+                                      <h5 class="card-text">Celular: </h5>
+                                      <input type="text" class="form-control" id="phone" name="phone" minlength="15" maxlength="15" value="" onkeydown="javascript: fMasc( this, mPHONE );"/>
+                                  </div>
+                                  <div class="col-md-6 mb-4_2">
+                                      <h5 class="card-text">What's App: </h5>
+                                      <select name="whatsapp" id="whatsapp" class="form-select" aria-label="Default select example">
+                                          <option value=1>Sim</option>
+                                          <option value=0 selected>Não</option>
+                                      </select>
+                                  </div>
+                              </div> 
+
+                              <div class="row">
+                                  <table class="table mt-0 mb-3">
+                                      <tr style="background-color:#EAEFF4; cursor: auto">
+                                          <th style="minwidth: 250px;">Dados Profissionais</th>
+                                      </tr>
+                                  </table>
+                              </div>
+
+                              <div class="row">
+                                  <div class="col-md-6 mb-3">
+                                      <h5 class="card-text">Empresa / Nome Fantasia: </h5>
+                                      <p class="card-text">
+                                          <input type="text" class="form-control" id="surname" name="surname" value=""/>
+                                      </p>
+                                  </div>
+                                  <div class="col-md-6 mb-3">
+                                      <h5 class="card-text">CNPJ: </h5>
+                                      <p class="card-text">
+                                          <input type="text" class="form-control" id="registration" name="registration" value="" maxlength="18" onkeydown="javascript: fMasc( this, mCNPJ );"/>
+                                      </p>
+                                  </div>
+                              </div> 
+                              
+                              <div class="row">
+                                  <div class="col-md-6 mb-3">
+                                      <h5 class="card-text">Setor: </h5>
+                                      <select name="sector" id="sector" class="form-select" aria-label="Default select example">
+                                          <option value="">Não Informado</option>
+                                          <option value="Administração">Administração</option>
+                                          <option value="Financeiro">Financeiro</option>
+                                          <option value="Recursos Humanos">Recursos Humanos</option>
+                                          <option value="Comercial">Comercial</option>
+                                          <option value="Marketing">Marketing</option>
+                                          <option value="Produção">Produção</option>
+                                          <option value="Jurídico">Jurídico</option>
+                                          <option value="Outro">Outro</option>
+                                      </select>
+                                  </div>
+                                  <div class="col-md-6 mb-3">
+                                      <h5 class="card-text">Cargo: </h5>
+                                      <select name="jobposition" id="jobposition" class="form-select" aria-label="Default select example">
+                                          <option value="">Não Informado</option>
+                                          <option value="Administrator(a)">Administrator(a)</option>
+                                          <option value="Advogado(a)">Advogado(a)</option>
+                                          <option value="Analista">Analista</option>
+                                          <option value="Assistente">Assistente</option>
+                                          <option value="Auxiliar">Auxiliar</option>
+                                          <option value="CEO">CEO</option>
+                                          <option value="Coordenador(a)">Coordenador(a)</option>
+                                          <option value="Diretor(a)">Diretor(a)</option>
+                                          <option value="Gerente">Gerente</option>
+                                          <option value="Presidente">Presidente</option>
+                                          <option value="Operador(a)">Operador(a)</option>
+                                          <option value="Operário(a)">Operário(a)</option>
+                                          <option value="Supervisor(a)">Supervisor(a)</option>
+                                          <option value="Outro">Outro</option>
+                                      </select>
+                                  </div>
+                              </div> 
+
+                              <div class="row">
+                                  <div class="col-md-6 mb-3">
+                                      <h5 class="card-text">ICMS: </h5>
+                                      <select name="icms_exempt" id="icms_exempt" class="form-select" aria-label="Default select example">
+                                          <option value=1>Sim</option>
+                                          <option value=0 selected>Não</option>
+                                      </select>
+                                  </div>
+                                  <div class="col-md-6 mb-4_2">
+                                      <h5 class="card-text">Simples Nacional: </h5>
+                                      <select name="simple_tax" id="simple_tax" class="form-select" aria-label="Default select example">
+                                          <option value=1>Sim</option>
+                                          <option value=0 selected>Não</option>
+                                      </select>
+                                  </div>
+                              </div> 
+                              
+                              <div class="row">
+                                  <table class="table mt-0 mb-3">
+                                      <tr style="background-color:#EAEFF4; cursor: auto">
+                                          <th style="minwidth: 250px;">Endereço</th>
+                                      </tr>
+                                  </table>
+                              </div>
+
+                              <div class="row">
+                                  <div class="col-md-3 mb-3">
+                                      <h5 class="card-text">CEP: </h5>
+                                      <p class="card-text">
+                                          <input type="text" class="form-control" id="zipcode" name="zipcode" value="" minlength="9" maxlength="9" onkeydown="javascript: fMasc( this, mCEP );"/>
+                                      </p>
+                                  </div>
+                                  <div class="col-md-2 mb-3">
+                                      <button type="button" class="btn btn-dark buttoncep" id="buscar_cep">
+                                          <i class="ti ti-search" style="margin-right:5px;"></i>Buscar
+                                      </button>
+                                  </div>
+                              </div>
+                              
+                              <div class="row">
+                                  <div class="col-md-6 mb-3">
+                                      <h5 class="card-text">Endereço: </h5>
+                                      <p class="card-text">
+                                          <input type="text" class="form-control" id="address" name="address" value=""/>
+                                      </p>
+                                  </div>
+                                  <div class="col-md-2 mb-3">
+                                      <h5 class="card-text">Número: </h5>
+                                      <p class="card-text">
+                                          <input type="text" class="form-control" id="number_address" name="number_address" value=""/>
+                                      </p>
+                                  </div>
+                                  <div class="col-md-4 mb-3">
+                                      <h5 class="card-text">Complemento: </h5>
+                                      <p class="card-text">
+                                          <input type="text" class="form-control" id="complement_address" name="complement_address" value=""/>
+                                      </p>
+                                  </div>
+                              </div> 
+
+                              <div class="row">
+                                  <div class="col-md-6 mb-3">
+                                      <h5 class="card-text">Bairro / Distrito: </h5>
+                                      <p class="card-text">
+                                          <input type="text" class="form-control" id="district" name="district" value=""/>
+                                      </p>
+                                  </div>
+                                  <div class="col-md-6 mb-3">
+                                      <h5 class="card-text">Cidade: </h5>
+                                      <p class="card-text">
+                                          <input type="text" class="form-control" id="city" name="city" value=""/>
+                                      </p>
+                                  </div>
+                              </div> 
+
+                              <div class="row">
+                                  <div class="col-md-6 mb-3">
+                                      <h5 class="card-text">Estado: </h5>
+                                      <p class="card-text">
+                                          <input type="text" class="form-control" id="state" name="state" value=""/>
+                                      </p>
+                                  </div>
+                                  <div class="col-md-6 mb-4_2">
+                                      <h5 class="card-text">País: </h5>
+                                      <p class="card-text">
+                                          <input type="text" class="form-control" id="country" name="country" value=""/>
+                                      </p>
+                                  </div>
+                              </div> 
+
+                              <div class="row">
+                                  <table class="table mt-0 mb-3">
+                                      <tr style="background-color:#EAEFF4; cursor: auto">
+                                          <th style="minwidth: 250px;">Informações</th>
+                                      </tr>
+                                  </table>
+                              </div>
+
+                              <div class="row">
+                                  <div class="col-md-12 mb-0">
+                                      <h5 class="card-text">Observação: </h5>
+                                      <textarea class="form-control" id="observation" name="observation" rows="5"></textarea>
+                                  </div>
+                              </div> 
+
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+              <p style="text-align: right; margin-bottom: 0;">
+                  <a href="{% url 'clients' %}" class="btn btn-dark" alt="Voltar" title="Voltar" style="margin-right:5px;"><i class="ti ti-arrow-back-up"></i></a> <button type="submit" class="btn btn-primary" alt="Salvar" title="Salvar" style="margin-right:5px;"><i class="ti ti-device-floppy"></i> Salvar</button>
+              </p>
+
+              </form>
+          </div>
+      </div>
+  </div>
+{% endblock %}

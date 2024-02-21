@@ -1,0 +1,81 @@
+{% load static %}
+<!doctype html>
+<html lang="pt_BR">
+
+    <head>
+        
+        <!-- Head Start -->
+        {% include "components/head.html" %}
+        {% block title %}<title>IAS | Sistema de Administração Comercial</title>{% endblock %}
+
+        <!-- Head End -->
+      
+    </head>
+
+    <body>
+        
+    <!--  Body Wrapper -->
+
+    <div class="page-wrapper radial-gradient min-vh-100" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+
+        <!-- Sidebar Start -->
+
+        <aside class="left-sidebar">
+
+            <!-- Sidebar scroll-->
+
+            <div>
+
+                <div class="brand-logo d-flex align-items-center justify-content-between">
+
+                    <a href="{% url 'dashboard' %}" class="text-nowrap logo-img">
+                        <img src="{% static 'system/images/logos/logo_b.png' %}" width="55" style="margin-left:10px;" alt="IAS" />
+                    </a> 
+
+                    <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+                        <i class="ti ti-x fs-8"></i>
+                    </div>
+                </div>
+        
+                <!-- Sidebar navigation-->
+                {% include "components/navigation.html" %}
+
+                <!-- End Sidebar navigation -->
+
+            </div>
+
+            <!-- End Sidebar scroll-->
+
+        </aside>
+
+        <!--  Sidebar End -->
+
+        <!--  Main wrapper -->
+
+        <div class="body-wrapper">
+
+            <!--  Header Start -->
+            {% include "components/header.html" %}
+
+            <!--  Header End -->
+
+            <!-- Page Start -->
+
+            {% block content %}
+            {% endblock %}
+
+            <!-- Page End -->
+
+        </div>
+
+    </div>
+
+    <!--  Foot Start -->
+    {% include "components/foot.html" %}
+
+    <!--  Foot End -->
+
+    </body>
+
+</html>

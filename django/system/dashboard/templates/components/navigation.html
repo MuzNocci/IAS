@@ -1,0 +1,126 @@
+                {% load static %}
+                <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+
+                    <ul id="sidebarnav">
+
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">Home</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{% url 'dashboard' %}" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-layout-dashboard fs-6"></i>
+                            </span>
+                            <span class="hide-menu">Dashboard</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">VENDAS</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/sales" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-home-dollar fs-6"></i>
+                            </span>
+                            <span class="hide-menu">PDV</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{% url 'clients' %}" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-users fs-6"></i>
+                            </span>
+                            <span class="hide-menu">Clientes</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/orders" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-file-description"></i>
+                            </span>
+                            <span class="hide-menu">Pedidos</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">CATÁLOGO</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/services" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-settings fs-6"></i>
+                            </span>
+                            <span class="hide-menu">Serviços</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/products" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-box-seam fs-6"></i>
+                            </span>
+                            <span class="hide-menu">Produtos</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">ADMINISTRAÇÃO</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/employees" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-users fs-6"></i>
+                            </span>
+                            <span class="hide-menu">Funcionários</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/suppliers" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-building-store fs-6"></i>
+                            </span>
+                            <span class="hide-menu">Fornecedores</span>
+                            </a>
+                        </li>
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">FINANCEIRO</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/actions" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-exchange fs-6"></i>
+                            </span>
+                            <span class="hide-menu">Ativos / Passivos</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/closure" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-coin fs-6"></i>
+                            </span>
+                            <span class="hide-menu">Fechamento</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/balance" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-report-money fs-6"></i>
+                            </span>
+                            <span class="hide-menu">Balanço</span>
+                            </a>
+                        </li>
+
+                    </ul>
+
+                    <div class="unlimited-access hide-menu bg-light-primary position-relative mb-7 mt-4_2 rounded" style="text-align: center; margin-left:auto; margin-right:auto;">
+                        <img src="{% static "system/images/logos/logo_b.png" %}" width="55" class="mt-3" alt="IAS" />
+                        <h6 class="fs-2 mt-6 mb-0 text-dark w-85">Desenvolvido por:</h6>
+                        <a href="https://muller.nocciolli.com.br/" target="_blank">Müller Nocciolli</a>
+                    </div>
+
+                </nav>
