@@ -5,5 +5,5 @@ from authentication.models import Userdata
 
 
 @login_required
-def sales(request):
+def profiles(request):
     pass

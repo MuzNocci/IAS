@@ -72,7 +72,7 @@ def client_register(request):
      
     if request.method == 'POST':
         
-        alert = []
+        alert = {}
         
         photo = request.FILES.get('photo', "")
         client_photo = ''
@@ -86,7 +86,7 @@ def client_register(request):
                 
                 image.save(os.path.join(BASE_DIR, f'static/system/images/customers/{logged_userdata.business}/{client_photo}'))
             else:
-                alert.append('- Imagem inválida.')
+                alert['photo'] = '- Imagem inválida.'
         
         client_name = request.POST.get('name', "")
         client_register = request.POST.get('cpf', "") 
@@ -111,6 +111,7 @@ def client_register(request):
         client_city = request.POST.get('city', "")
         client_state = request.POST.get('state', "")
         client_country = request.POST.get('country', "")
+        client_observation = request.POST.get('observation', "")
         
         if len(alert) != 0:
             
@@ -150,6 +151,7 @@ def client_register(request):
                 city = client_city,
                 state = client_state,
                 country = client_country,
+                observation = client_observation,
                 created_by = logged_user.first_name +' '+ logged_user.last_name,
             )
             new_client.save()
@@ -167,6 +169,7 @@ def client_register(request):
 
 
 # PAGE - CLIENT SHOW
+@login_required
 def client_show(request, id=0):
 
     logged_user = User.objects.get(username=request.user)
@@ -177,6 +180,12 @@ def client_show(request, id=0):
     birthday_treated = client.birthday[8:10]+'/'+client.birthday[5:7]+'/'+client.birthday[0:4]
     sex_treated = 'Feminino' if client.sex == 'F' else ('Masculino' if client.sex == 'M' else 'Outro')
     phone_treated = remove_char(client.phone,'() -')
+    created_at = str(client.created_at)
+    created_at_date = created_at[8:10]+'/'+created_at[5:7]+'/'+created_at[0:4]
+    created_at_hour = created_at[11:13]+':'+created_at[14:16]
+    updated_at = str(client.updated_at)
+    updated_at_date = updated_at[8:10]+'/'+updated_at[5:7]+'/'+updated_at[0:4]
+    updated_at_hour = updated_at[11:13]+':'+updated_at[14:16]
 
     context = {
         'logged_user':logged_user,
@@ -185,5 +194,60 @@ def client_show(request, id=0):
         'birthday_treated':birthday_treated,
         'phone_treated':phone_treated,
         'sex_treated':sex_treated,
+        'created_at_date':created_at_date,
+        'created_at_hour':created_at_hour,
+        'updated_at_date':updated_at_date,
+        'updated_at_hour':updated_at_hour,
     }
     return render(request, 'client_show.html', context)
+
+
+# PAGE - CLIENT EDIT
+@login_required
+def client_edit(request, id=0):
+
+    logged_user = User.objects.get(username=request.user)
+    logged_userdata = Userdata.objects.get(email=request.user)
+    client = Clients.objects.get(id=id, business=logged_userdata.business)
+
+    alert = {}
+
+    if request.method == 'POST':
+
+        pass
+
+    else:
+
+
+        birthday_treated = client.birthday[8:10]+'/'+client.birthday[5:7]+'/'+client.birthday[0:4]
+
+        context = {
+            'logged_user':logged_user,
+            'logged_data':logged_userdata,
+            'client':client,
+            'birthday_treated':birthday_treated,
+            'type_alert':'danger-alert',
+            'alert':alert,
+        }
+        return render(request, 'client_edit.html', context)
+
+
+
+# PAGE - PHOTO DELETE
+@login_required
+def photo_delete(request, id=0):
+    pass
+
+
+# PAGE - CLIENT DELETE
+@login_required
+def client_delete(request, id=0):
+    
+    logged_user = User.objects.get(username=request.user)
+    logged_userdata = Userdata.objects.get(email=request.user)
+
+    context = {
+        'logged_user':logged_user,
+        'logged_data':logged_userdata
+    }
+    return render(request, 'client_delete.html', context)

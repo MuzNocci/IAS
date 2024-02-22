@@ -1,6 +1,6 @@
 /venv/
 /django/.env
 /django/.env copy
-/django/.pass
-/django/.pass copy
+/django/db.sqlite3
+/django/core/settings.py
 /docker/postgresql/data/

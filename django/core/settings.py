@@ -12,11 +12,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 
 SECRET_KEY = environ.Env(SECRET_KEY=(str))
-HOST = environ.Env(HOST=(str))
-PORT = environ.Env(PORT=(str))
-NAME = environ.Env(NAME=(str))
-USER = environ.Env(USER=(str))
-PASSWORD = environ.Env(PASS=(str))
 
 DEBUG = environ.Env(DEBUG=(bool, False))
 
@@ -42,10 +37,13 @@ INSTALLED_APPS = [
     #Authentication
     'authentication.apps.AuthenticationConfig',
     # Sistema
-    'system.dashboard.apps.DashboardConfig',
-    'system.notifications.apps.NotificationsConfig',  
     'system.business.apps.BusinessConfig',
-    'system.clients.apps.ClientsConfig',    
+    'system.clients.apps.ClientsConfig',
+    'system.dashboard.apps.DashboardConfig',
+    'system.employees.apps.EmployeesConfig',  
+    'system.notifications.apps.NotificationsConfig',  
+    'system.products.apps.ProductsConfig',  
+    'system.profiles.apps.ProfilesConfig',    
 ]
 
 MIDDLEWARE = [
@@ -83,16 +81,6 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-
-    # PRODUCTION
-    # "default": {
-    #     "ENGINE": "django.db.backends.postgresql_psycopg2",
-    #     "HOST":"db",
-    #     "PORT":5432,
-    #     "NAME":"ias_database",
-    #     "USER":"ias_user",
-    #     "PASSWORD":"muHias@9902",
-    # }
 
     # DEVELOPMENT
     'default': {
@@ -136,11 +124,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
 LANGUAGE_CODE = 'pt-br'
-
-TIME_ZONE = 'America/Sao_Paulo'
-
 USE_I18N = True
 
+TIME_ZONE = 'America/Sao_Paulo'
 USE_TZ = True
 
 DATE_INPUT_FORMATS = ['%d/%m/%Y']
@@ -177,9 +163,9 @@ EMAIL_PORT = '587'
 
 # Default sessions settings
 
-SESSION_COOKIE_AGE = 86400
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-SESSION_SAVE_EVERY_REQUEST = True
+# SESSION_COOKIE_AGE = 86400
+# SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+# SESSION_SAVE_EVERY_REQUEST = True
 
 
 # Default primary key field type

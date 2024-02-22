@@ -30,7 +30,9 @@
               <div id="info" name="info" class="row">
                   <div class="col-md-12">
                       <div class="alert {{ type_alert }} mb-3" role="alert">
-                          <p class="mb-0">{{ alert }}</p>
+                          {% for item in alert %}
+                          <p class="mb-0">{{ alert[item] }}</p>
+                          {% endfor %}
                       </div>
                   </div>
               </div>

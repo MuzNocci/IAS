@@ -28,7 +28,7 @@
                 <div class="col-md-12">
                     <div class="body-card mt-3 ta-right">
                         <p style="text-align: right; margin-bottom: 0;">
-                            <a href="{% url 'clients' %}" class="btn btn-dark" style="margin-right:5px;" alt="Voltar" title="Voltar"><i class="ti ti-arrow-back-up"></i></a> <a href="/client/edit/{{ client.id }}" class="btn btn-primary" style="margin-right:5px;" alt="Editar" title="Editar"><i class="ti ti-edit"></i> Editar</a> <a href="/client/delete/{{ client.id }}" class="btn btn-danger" alt="Deletar" title="Deletar"><i class="ti ti-trash"></i> Deletar</a>
+                            <a href="{% url 'clients' %}" class="btn btn-dark" style="margin-right:5px;" alt="Voltar" title="Voltar"><i class="ti ti-arrow-back-up"></i></a> <a href="/auth/client/edit/{{ client.id }}" class="btn btn-primary" style="margin-right:5px;" alt="Editar" title="Editar"><i class="ti ti-edit"></i> Editar</a> <a href="/auth/client/delete/{{ client.id }}" class="btn btn-danger" alt="Deletar" title="Deletar"><i class="ti ti-trash"></i> Deletar</a>
                         </p>
                     </div>
                 </div>                    
@@ -364,7 +364,7 @@
                                 <div class="col-md-6 mb-4_2">
                                     <h5 class="card-text">Cadastrado em: </h5>
                                     {% if client.created_at %}
-                                    <p class="card-text">{{ client.created_at.date|date:'d/m/Y' }} às {{ client.created_at.time|time:'H:M' }}</p>
+                                    <p class="card-text">{{ created_at_date }} às {{ created_at_hour }}</p>
                                     {% else %}
                                     <p class="card-text" style="color:#990000;">Não Informado</p>
                                     {% endif %}
@@ -391,7 +391,7 @@
                                 <div class="col-md-6 mt-3 mb-0">
                                     <h5 class="card-text">Atualizado em: </h5>
                                     {% if client.updated_at %}
-                                    <p class="card-text">{{ client.updated_at.date|date:'d/m/Y' }} às {{ client.updated_at.time|time:'H:M' }}</p>
+                                    <p class="card-text">{{ created_at_date }} às {{ created_at_hour }}</p>
                                     {% else %}
                                     <p class="card-text" style="color:#990000;">Não Informado</p>
                                     {% endif %}
@@ -404,7 +404,7 @@
             </div>
 
             <p class="mt-0 mb-0 ta-right">
-                <a href="{% url 'clients' %}" class="btn btn-dark" style="margin-right:5px;" alt="Voltar" title="Voltar"><i class="ti ti-arrow-back-up"></i></a> <a href="/client/edit/{{ client.id }}" class="btn btn-primary" style="margin-right:5px;" alt="Editar" title="Editar"><i class="ti ti-edit"></i> Editar</a> <a href="/client/delete/{{ client.id }}" class="btn btn-danger" alt="Deletar" title="Deletar"><i class="ti ti-trash"></i> Deletar</a>
+                <a href="{% url 'clients' %}" class="btn btn-dark" style="margin-right:5px;" alt="Voltar" title="Voltar"><i class="ti ti-arrow-back-up"></i></a> <a href="/auth/client/edit/{{ client.id }}" class="btn btn-primary" style="margin-right:5px;" alt="Editar" title="Editar"><i class="ti ti-edit"></i> Editar</a> <a href="/auth/client/delete/{{ client.id }}" class="btn btn-danger" alt="Deletar" title="Deletar"><i class="ti ti-trash"></i> Deletar</a>
             </p>
 
         </div>

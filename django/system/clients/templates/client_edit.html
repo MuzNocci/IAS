@@ -1,0 +1,349 @@
+{% extends "components/_base.html" %}
+{% load static %}
+
+{% block title %}<title>IAS | Dashboard</title>{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <form method="post" action="{% url 'client_edit' 'client.id' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb breadcrumb-chevron p-3 bg-light-primary rounded">
+                    <li class="breadcrumb-item">
+                        <a class="link-body-emphasis" href="{% url 'dashboard' %}">
+                            <i class="ti ti-home"></i>
+                            <span class="visually-hidden">Home</span>
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        <a class="link-body-emphasis text-decoration-none" href="{% url 'clients' %}">Clientes</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        <a class="link-body-emphasis text-decoration-none" href="{% url 'client_show' client.id %}">Cliente</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        Editar
+                    </li>
+                </ol>
+            </nav>
+
+            {% if alert.items > 0 %}
+            <div id="info" name="info" class="row">
+                <div class="col-md-12">
+                    <div class="alert {{ type_alert }} mb-3" role="alert">
+                        {% for item in alert.items %}
+                        <p class="mb-0">{{ item.1 }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="row mb-3" style="margin-top:-1rem;">
+                <div class="col-md-12">
+                    <div class="body-card mt-3 ta-right">
+                        <p style="text-align: right; margin-bottom: 0;">
+                            <a href="{% url 'client_show' client.id %}" class="btn btn-dark" alt="Voltar" title="Voltar" style="margin-right:5px;"><i class="ti ti-arrow-back-up"></i></a>
+                            <button type="submit" class="btn btn-primary" alt="Salvar" title="Salvar" style="margin-right:5px;"><i class="ti ti-device-floppy"></i> Salvar</button>
+                        </p>
+                    </div>
+                </div>                    
+            </div>
+        
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+
+                        <h5 class="card-text mb-3">Foto: </h5>
+                        {% if client.photo %}
+                        <div style="position:relative;">
+                            <img id="imgphoto" src="{% static 'system/images/customers/'  %}{{ logged_data.business }}/{{ client.photo   }}" width="100%" style="border-radius:10px;" alt="IAS" />
+                            <a id="delimg" href="{% url 'photo_delete' client.id %}">
+                                <button type="button" class="xbutton" alt="Remover imagem" title="Remover imagem">
+                                  <i class="ti ti-x"></i>
+                                </button>
+                            </a>
+                        </div>
+                        {% else %}
+                            {% if client.sex == 'F' %}
+                                <img id="imgphoto" src="{% static 'system/images/customers/' %}customer_woman.png" width="100%" style="border-radius:10px;" alt="IAS" />
+                            {% else %}
+                                <img id="imgphoto" src="{% static 'system/images/customers/' %}customer_man.png" width="100%" style="border-radius:10px;" alt="IAS" />
+                            {% endif %}
+                        {% endif %}
+                        <div style="position: relative; margin-top:10px; text-align:center; width:100%;">(Tamanho máximo 2MB)</div>
+                        <p class="card-text">
+                            <input type="file" class="form-control" style="margin-top:5px; width:100%;" id="photo" name="photo" value="{{ client.photo }}" />
+                        </p>
+
+                        </div>
+                    </div>
+                </div> 
+
+                <div class="col-md-8">
+                    <div class="card mb-3">
+                        <div class="card-body">
+
+                            <div class="row">
+                                <div class="col-md-12 mb-3">
+                                    <h5 class="card-text">Id: #{{ client.id }}</h5>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <table class="table mt-0 mb-3">
+                                    <tr style="background-color:#EAEFF4; cursor: auto">
+                                        <th style="minwidth: 250px;">Dados Pessoais</th>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="card-text">Nome: </h5>
+                                    <p class="card-text">
+                                        <input type="text" class="form-control" id="name" name="name" value="{{ client.name }}" required/>
+                                    </p>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="card-text">CPF: </h5>
+                                    {% if logged_data.level <= 2 or client.register == '' %}
+                                    <input type="text" class="form-control" id="cpf" name="cpf" minlength="14" maxlength="14" value="{{ client.register }}" onkeydown="javascript: fMasc( this, mCPF );"/>
+                                    {% else %}
+                                    <input type="text" class="form-control" id="dis_cpf" name="dis_cpf" value="{{ client.register | slice:'0:6'  }}*.***-**" disabled="disabled" required/>               
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="card-text">Sexo: </h5>
+                                    <select name="sex" id="sex" class="form-select" aria-label="Default select example">
+                                        <option {% if client.sex == '' %} selected {% endif %} value="">Não Informado</option>
+                                        <option {% if client.sex == 'M' %} selected {% endif %} value="Masculino">Masculino</option>
+                                        <option {% if client.sex == 'F' %} selected {% endif %} value="Feminino">Feminino</option>
+                                        <option {% if client.sex == 'O' %} selected {% endif %} value="Outro">Outro</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="card-text">Data Nascimento: </h5>
+                                    <input type="date" class="form-control" id="birthday" name="birthday" value="{{ client.birthday }}" maxlength="10"/>
+                                </div>
+                            </div> 
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="card-text">E-mail: </h5>
+                                    <input type="email" class="form-control" id="email" name="email" value="{{ client.email }}"/>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="card-text">E-mail Marketing: </h5>
+                                    <select name="email_marketing" id="email_marketing" class="form-select" aria-label="Default select example">
+                                        <option {% if client.email_marketing == 1 %} selected {% endif %} value=1>Sim</option>
+                                        <option {% if client.email_marketing == 0 %} selected {% endif %} value=0>Não</option>
+                                    </select>
+                                </div>
+                            </div> 
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="card-text">Celular: </h5>
+                                    <input type="text" class="form-control" id="phone" name="phone" minlength="15" maxlength="15" value="{{ client.phone }}" onkeydown="javascript: fMasc( this, mPHONE );"/>
+                                </div>
+                                <div class="col-md-6 mb-4_2">
+                                    <h5 class="card-text">What's App: </h5>
+                                    <select name="whatsapp" id="whatsapp" class="form-select" aria-label="Default select example">
+                                        <option {% if client.whatsapp == 1 %} selected {% endif %} value=1>Sim</option>
+                                        <option {% if client.whatsapp == 0 %} selected {% endif %} value=0>Não</option>
+                                    </select>
+                                </div>
+                            </div> 
+
+                            <div class="row">
+                                <table class="table mt-0 mb-3">
+                                    <tr style="background-color:#EAEFF4; cursor: auto">
+                                        <th style="minwidth: 250px;">Dados Profissionais</th>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="card-text">Empresa / Nome Fantasia: </h5>
+                                    <p class="card-text">
+                                        <input type="text" class="form-control" id="surname" name="surname" value="{{ client.surname }}"/>
+                                    </p>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="card-text">CNPJ: </h5>
+                                    <p class="card-text">
+                                        {% if logged_data.level <= 2 or client.registration == '' %}
+                                        <input type="text" class="form-control" id="registration" name="registration" value="{{ client.registration }}" onkeydown="javascript: fMasc( this, mCNPJ );"/>
+                                        {% else %}
+                                        <input type="text" class="form-control" id="dis_cnpj" name="dis_cnpj" value="{{ client.registration | slice:'0:6' }}.***/****-**" disabled="disabled"/>
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div> 
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="card-text">Setor: </h5>
+                                    <select name="sector" id="sector" class="form-select" aria-label="Default select example">
+                                        <option {% if client.sector == '' %}selected{% endif %} value="">Não Informado</option>
+                                        <option {% if client.sector == 'Administração' %}selected{% endif %} value="Administração">Administração</option>
+                                        <option {% if client.sector == 'Educação' %}selected{% endif %} value="Educação">Educação</option>
+                                        <option {% if client.sector == 'Financeiro' %}selected{% endif %} value="Financeiro">Financeiro</option>
+                                        <option {% if client.sector == 'Recursos Humanos' %}selected{% endif %} value="Recursos Humanos">Recursos Humanos</option>
+                                        <option {% if client.sector == 'Comercial' %}selected{% endif %} value="Comercial">Comercial</option>
+                                        <option {% if client.sector == 'Marketing' %}selected{% endif %} value="Marketing">Marketing</option>
+                                        <option {% if client.sector == 'Produção' %}selected{% endif %} value="Produção">Produção</option>
+                                        <option {% if client.sector == 'Jurídico' %}selected{% endif %} value="Jurídico">Jurídico</option>
+                                        <option {% if client.sector == 'Outro' %}selected{% endif %} value="Outro">Outro</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="card-text">Cargo: </h5>
+                                    <select name="jobposition" id="jobposition" class="form-select" aria-label="Default select example">
+                                        <option {% if client.jobposition == '' %}selected{% endif %} value="">Não Informado</option>
+                                        <option {% if client.jobposition == 'Administrator(a)' %}selected{% endif %} value="Administrator(a)">Administrator(a)</option>
+                                        <option {% if client.jobposition == 'Advogado(a)' %}selected{% endif %} value="Advogado(a)">Advogado(a)</option>
+                                        <option {% if client.jobposition == 'Analista' %}selected{% endif %} value="Analista">Analista</option>
+                                        <option {% if client.jobposition == 'Assistente' %}selected{% endif %} value="Assistente">Assistente</option>
+                                        <option {% if client.jobposition == 'Auxiliar' %}selected{% endif %} value="Auxiliar">Auxiliar</option>
+                                        <option {% if client.jobposition == 'CEO' %}selected{% endif %} value="CEO">CEO</option>
+                                        <option {% if client.jobposition == 'Coordenador(a)' %}selected{% endif %} value="Coordenador(a)">Coordenador(a)</option>
+                                        <option {% if client.jobposition == 'Diretor(a)' %}selected{% endif %} value="Diretor(a)">Diretor(a)</option>
+                                        <option {% if client.jobposition == 'Gerente' %}selected{% endif %} value="Gerente">Gerente</option>
+                                        <option {% if client.jobposition == 'Presidente' %}selected{% endif %} value="Presidente">Presidente</option>
+                                        <option {% if client.jobposition == 'Operador(a)' %}selected {% endif %} value="Operador(a)">Operador(a)</option>
+                                        <option {% if client.jobposition == 'Operário(a)' %}selected {% endif %} value="Operário(a)">Operário(a)</option>
+                                        <option {% if client.jobposition == 'Supervisor(a)' %}selected {% endif %} value="Supervisor(a)">Supervisor(a)</option>
+                                        <option {% if client.jobposition == 'Outro' %}selected {% endif %} value="Outro">Outro</option>
+                                    </select>
+                                </div>
+                            </div> 
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="card-text">ICMS: </h5>
+                                    <select name="icms_exempt" id="icms_exempt" class="form-select" aria-label="Default select example">
+                                        <option {% if client.icms_exempt == 1 %}selected{% endif %} value=1>Sim</option>
+                                        <option {% if client.icms_exempt == 0 %}selected{% endif %} value=0>Não</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-4_2">
+                                    <h5 class="card-text">Simples Nacional: </h5>
+                                    <select name="simple_tax" id="simple_tax" class="form-select" aria-label="Default select example">
+                                        <option {% if client.simple_tax == 1 %}selected{% endif %} value=1>Sim</option>
+                                        <option {% if client.simple_tax == 0 %}selected{% endif %} value=0>Não</option>
+                                    </select>
+                                </div>
+                            </div> 
+                            
+                            <div class="row">
+                                <table class="table mt-0 mb-3">
+                                    <tr style="background-color:#EAEFF4; cursor: auto">
+                                        <th style="minwidth: 250px;">Endereço</th>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-3 mb-3">
+                                    <h5 class="card-text">CEP: </h5>
+                                    <p class="card-text">
+                                        <input type="text" class="form-control" id="zipcode" name="zipcode" value="{{ client.zipcode }}" minlength="9" maxlength="9" onkeydown="javascript: fMasc( this, mCEP );"/>
+                                    </p>
+                                </div>
+                                <div class="col-md-2 mb-3">
+                                    <button type="button" class="btn btn-dark buttoncep" id="buscar_cep">
+                                        <i class="ti ti-search" style="margin-right:5px;"></i>Buscar
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="card-text">Endereço: </h5>
+                                    <p class="card-text">
+                                        <input type="text" class="form-control" id="address" name="address" value="{{ client.address }}"/>
+                                    </p>
+                                </div>
+                                <div class="col-md-2 mb-3">
+                                    <h5 class="card-text">Número: </h5>
+                                    <p class="card-text">
+                                        <input type="text" class="form-control" id="number_address" name="number_address" value="{{ client.number_address }}"/>
+                                    </p>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <h5 class="card-text">Complemento: </h5>
+                                    <p class="card-text">
+                                        <input type="text" class="form-control" id="address_complement" name="address_complement" value="{{ client.address_complement }}"/>
+                                    </p>
+                                </div>
+                            </div> 
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="card-text">Bairro / Distrito: </h5>
+                                    <p class="card-text">
+                                        <input type="text" class="form-control" id="district" name="district" value="{{ client.district }}"/>
+                                    </p>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="card-text">Cidade: </h5>
+                                    <p class="card-text">
+                                        <input type="text" class="form-control" id="city" name="city" value="{{ client.city }}"/>
+                                    </p>
+                                </div>
+                            </div> 
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <h5 class="card-text">Estado: </h5>
+                                    <p class="card-text">
+                                        <input type="text" class="form-control" id="state" name="state" value="{{ client.state }}"/>
+                                    </p>
+                                </div>
+                                <div class="col-md-6 mb-4_2">
+                                    <h5 class="card-text">País: </h5>
+                                    <p class="card-text">
+                                        <input type="text" class="form-control" id="country" name="country" value="{{ client.country }}"/>
+                                    </p>
+                                </div>
+                            </div> 
+
+                            <div class="row">
+                                <table class="table mt-0 mb-3">
+                                    <tr style="background-color:#EAEFF4; cursor: auto">
+                                        <th style="minwidth: 250px;">Informações</th>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 mb-0">
+                                    <h5 class="card-text">Observação: </h5>
+                                    <textarea class="form-control" id="observation" name="observation" rows="5">{{ client.observation }}</textarea>
+                                </div>
+                            </div> 
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p style="text-align: right; margin-bottom: 0;">
+                <a href="{% url 'client_show' client.id %}" class="btn btn-dark" alt="Voltar" title="Voltar" style="margin-right:5px;"><i class="ti ti-arrow-back-up"></i></a>
+                <button type="submit" class="btn btn-primary" alt="Salvar" title="Salvar" style="margin-right:5px;"><i class="ti ti-device-floppy"></i> Salvar</button>
+            </p>
+
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
