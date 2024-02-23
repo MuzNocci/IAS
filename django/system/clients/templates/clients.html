@@ -114,9 +114,9 @@
                                     {% if pages %}
                                         {% for client in pages %}                        
                                         <tr onclick="location.href='/auth/client/{{ client.id }}'">
-                                            <th scope="row">
+                                            <th scope="row" class="text-start">
                                                 {% if client.photo != '' %}
-                                                <img src="{% static 'system/images/customers/' %}{{ logged_data.business }}/{{ client.photo }}" style="border-radius:50%; width:35px; height:35px;" alt="" />
+                                                <img src="{% static 'system/images/customers/' %}{{ logged_data.business }}/{{ client.photo }}" style="border-radius:10%; width:35px; height:35px;" alt="" />
                                                 {% else %}
                                                     {% if client.sex != 'F' %}
                                                     <img src="{% static 'system/images/customers/customer_man.png' %}" style="border-radius:50%; width:35px; height:35px;" alt="" />

@@ -7,7 +7,7 @@
 <div class="container-fluid">
     <div class="card">
         <div class="card-body">
-            <form method="post" action="{% url 'client_register' %}" enctype="multipart/form-data">
+            <form method="post" action="{% url 'client_create' %}" enctype="multipart/form-data">
             {% csrf_token %}
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-chevron p-3 bg-light-primary rounded">
@@ -30,8 +30,8 @@
               <div id="info" name="info" class="row">
                   <div class="col-md-12">
                       <div class="alert {{ type_alert }} mb-3" role="alert">
-                          {% for item in alert %}
-                          <p class="mb-0">{{ alert[item] }}</p>
+                          {% for item in alert.items %}
+                          <p class="mb-0">{{ item.1 }}</p>
                           {% endfor %}
                       </div>
                   </div>
@@ -59,7 +59,7 @@
 
                           <div style="position: relative; margin-top:10px; text-align:center; width:100%;">(Tamanho máximo 2MB)</div>
                           <p class="card-text">
-                              <input type="file" class="form-control" style="margin-top:5px; width:100%;" id="photo" name="photo" value="" />
+                              <input type="file" class="form-control" style="margin-top:5px; width:100%;" id="photo" name="photo" value="{{ data.photo }}" />
                           </p>
 
                           </div>
@@ -82,12 +82,12 @@
                                   <div class="col-md-6 mb-3">
                                       <h5 class="card-text">Nome: </h5>
                                       <p class="card-text">
-                                          <input type="text" class="form-control" id="name" name="name" value="" required/>
+                                          <input type="text" class="form-control" id="name" name="name" {% if data.name %}style="border: 1px solid #FA896B; color: #FA896B;"{% endif %} value="{{ data.name }}" required/>
                                       </p>
                                   </div>
                                   <div class="col-md-6 mb-3">
                                       <h5 class="card-text">CPF: </h5>
-                                      <input type="text" class="form-control" id="cpf" name="cpf" minlength="14" maxlength="14" value="" onkeydown="javascript: fMasc( this, mCPF );"/>
+                                      <input type="text" class="form-control" id="cpf" name="cpf" minlength="14" maxlength="14" {% if data.register %}style="border: 1px solid #FA896B; color: #FA896B;"{% endif %} value="{{ data.register }}" onkeydown="javascript: fMasc( this, mCPF );"/>
                                   </div>
                               </div>
 

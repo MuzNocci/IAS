@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.core.mail import EmailMultiAlternatives
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import authenticate, login, logout
-from authentication.utils import valid_cpf, valid_mail
+from authentication.validators import valid_cpf, valid_mail
 # import Models
 from django.contrib.auth.models import User
 from authentication.models import Userdata

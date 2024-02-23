@@ -1,4 +1,3 @@
-from django.contrib import admin
 from django.urls import path, include
 
 
@@ -7,9 +6,6 @@ urlpatterns = [
     
     # Site
     path('', include('web.urls')),
-    
-    # Administração
-    # path('auth/administrator/system/', admin.site.urls),
     
     # Authentication
     path('auth/', include('authentication.urls')),

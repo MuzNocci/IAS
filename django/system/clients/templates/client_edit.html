@@ -7,7 +7,7 @@
 <div class="container-fluid">
     <div class="card">
         <div class="card-body">
-            <form method="post" action="{% url 'client_edit' 'client.id' %}" enctype="multipart/form-data">
+            <form method="post" action="{% url 'client_update' client.id %}" enctype="multipart/form-data">
                 {% csrf_token %}
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-chevron p-3 bg-light-primary rounded">
@@ -76,7 +76,7 @@
                         {% endif %}
                         <div style="position: relative; margin-top:10px; text-align:center; width:100%;">(Tamanho máximo 2MB)</div>
                         <p class="card-text">
-                            <input type="file" class="form-control" style="margin-top:5px; width:100%;" id="photo" name="photo" value="{{ client.photo }}" />
+                            <input type="file" class="form-control" style="margin-top:5px; width:100%;" id="photo" name="photo" value="" />
                         </p>
 
                         </div>

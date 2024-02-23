@@ -7,21 +7,64 @@
 <div class="container-fluid">
     <div class="card">
         <div class="card-body">
+            <form method="post" action="{% url 'profile_delete' client.id %}">
+            {% csrf_token %}
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-chevron p-3 bg-light-primary rounded">
                     <li class="breadcrumb-item">
-                    <a class="link-body-emphasis" href="{% url 'dashboard' %}">
-                        <i class="ti ti-home"></i>
-                        <span class="visually-hidden">Home</span>
-                    </a>
+                        <a class="link-body-emphasis" href="{% url 'dashboard' %}">
+                            <i class="ti ti-home"></i>
+                            <span class="visually-hidden">Home</span>
+                        </a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">
-                        Dashboard
+                        <a class="link-body-emphasis text-decoration-none" href="{% url 'clients' %}">Clientes</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        <a class="link-body-emphasis text-decoration-none" href="{% url 'client_show' client.id %}">Cliente</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        Excluir
                     </li>
                 </ol>
             </nav>
-            <h5 class="card-title fw-semibold mb-4">Dashboard</h5>
-            <p class="mb-0">Página de acompanhamento e relatórios.</p>
+
+            {% if alert.items > 0 %}
+            <div id="info" name="info" class="row">
+                <div class="col-md-12">
+                    <div class="alert {{ type_alert }} mb-3" role="alert">
+                        {% for item in alert.items %}
+                        <p class="mb-0">{{ item.1 }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="alert alert-danger mb-0"role="alert">
+                                        <p class="mb-0"><i class="ti ti-alert-triangle fs-3"></i> Você deseja realmente excluir o cliente: <b>#{{ client.id }} - {{ client.name }}</b></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="mb-0 mt-0 ta-right">
+                        <a href="{% url 'client_show' client.id %}" class="btn btn-dark" style="margin-right:5px;" alt="Voltar" title="Voltar"><i class="ti ti-arrow-back-up"></i></a>
+                        <button type="submit" class="btn btn-danger" alt="Deletar o Clente" title="Deletar o Cliente"><i class="ti ti-trash"></i> Deletar o Cliente</button>
+                    </p>
+
+                </div>
+            </div>
+
+            </form>
         </div>
     </div>
 </div>
