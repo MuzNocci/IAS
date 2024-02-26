@@ -1,5 +1,6 @@
 docker-compose.yml
-/venv/
-/django/.env
-/django/db.sqlite3
-/docker/postgresql/data/
+venv/
+django/.env
+django/db.sqlite3
+django/core/settings.py
+docker/postgresql/data/
