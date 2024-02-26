@@ -66,7 +66,7 @@ def client_create(request):
 
         client_phone = request.POST.get('phone', "")
         if client_phone != '':
-            if not validators.valid_mail(client_phone):
+            if not validators.valid_phone(client_phone):
                 alert['phone'] = '- Telefone inválido.'
 
 
