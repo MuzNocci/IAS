@@ -12,8 +12,8 @@ services:
     volumes:
       - ./django/static:/home/app/static
     ports:
-      - 8087:80
-      - 8447:443
+      - 8080:80
+      - 8443:443
     depends_on:
       - django001
     networks:
@@ -55,13 +55,11 @@ services:
       context: ./docker/postgresql/
       dockerfile: Dockerfile
     volumes:
-      - ./docker/postgresql/data/:/var/lib/postgresql/data/
+      - ./docker/postgresql/database/:/var/lib/postgresql/database/
     environment:
-      - POSTGRES_DB=ias_database
-      - POSTGRES_USER=ias_user
-      - POSTGRES_PASSWORD=muHias@9902
-    ports:
-      - 5433:5432
+      - POSTGRES_DB=database
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
     networks:
       - intranet
 
