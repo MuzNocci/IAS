@@ -87,17 +87,6 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
-    
-
-    # PRODUCTION
-    # "default": {
-    #     "ENGINE": "django.db.backends.postgresql_psycopg2",
-    #     "HOST":"db",
-    #     "PORT":5432,
-    #     "NAME":"ias_database",
-    #     "USER":"ias_user",
-    #     "PASSWORD":"muHias@9902",
-    # }
 
 }
 
