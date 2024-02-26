@@ -68,9 +68,9 @@ class Clients(models.Model):
     icms_exempt = models.BooleanField(default=False)
     simple_tax = models.BooleanField(default=False)
     created_by = models.CharField(max_length=255, blank=True, null=True)
-    created_at = models.DateTimeField(blank=True, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
     updated_by = models.CharField(max_length=255, blank=True, null=True)
-    updated_at = models.DateTimeField(blank=True, null=True)
+    updated_at = models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=True)
     
     def __str__(self) -> int:

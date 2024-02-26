@@ -1,10 +1,13 @@
 import re
 from authentication import utils
+import datetime
 
 
 
 # VALID NAME
 def valid_name(name):
+
+    name = name.replace(' ','')
 
     if len(name) > 2:
 
@@ -160,3 +163,14 @@ def valid_file(fullname):
     extension = len(divisor)-1
     
     return divisor[extension]
+
+
+# VALID DATE
+def valid_date(date):
+
+    date_split = str(date).split('-')
+
+    if datetime.date(year=1900, month=1, day=1) < datetime.date(year=int(date_split[0]), month=int(date_split[1]), day=int(date_split[2])) <= datetime.date.today():
+        return True
+
+    return False

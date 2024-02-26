@@ -47,16 +47,19 @@ def client_create(request):
         client_register = request.POST.get('cpf', "") 
         if client_register != '':
             if not validators.valid_cpf(client_register):
-                alert['cpf'] = '- CPF inválido.'
+                alert['register'] = '- CPF inválido.'
 
         client_sex = request.POST.get('sex', "")
 
         client_birthday = request.POST.get('birthday', '0000-00-00')
+        if client_birthday != '':
+            if not validators.valid_date(client_birthday):
+                alert['birthday'] = '- Data de nascimento inválida.'
 
         client_email = request.POST.get('email', "")
         if client_email != '':
             if not validators.valid_mail(client_email):
-                alert['email'] = '- CPF inválido.'
+                alert['email'] = '- E-mail inválido.'
 
 
         client_email_marketing = request.POST.get('email_marketing', 0)
@@ -111,6 +114,8 @@ def client_create(request):
             data = {
                 'name':client_name,
                 'register':client_register,
+                'sex':client_sex,
+                'birthday':client_birthday,
             }
 
             request.session['data'] = data
@@ -148,6 +153,7 @@ def client_create(request):
                 country = client_country,
                 observation = client_observation,
                 created_by = logged_user.first_name +' '+ logged_user.last_name,
+                updated_by = logged_user.first_name +' '+ logged_user.last_name,
             )
             new_client.save()
 

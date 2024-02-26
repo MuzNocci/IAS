@@ -61,7 +61,10 @@ class Userdata(models.Model):
     plan = models.IntegerField(validators=[MaxValueValidator(99)], blank=True, null=True) # Criar relacionamento
     plan_expire = models.DateField(blank=True, null=True)
     remember_token = models.CharField(max_length=128, unique=True, blank=False, null=True)
-    update_at = models.DateTimeField(default=timezone.now)
+    created_by = models.CharField(max_length=255, unique=True, blank=False)
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_by = models.CharField(max_length=255, unique=True, blank=False)
+    updated_at = models.DateTimeField(default=timezone.now)
     
     def __str__(self) -> int:
         return super().id

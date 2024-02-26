@@ -82,12 +82,12 @@
                                   <div class="col-md-6 mb-3">
                                       <h5 class="card-text">Nome: </h5>
                                       <p class="card-text">
-                                          <input type="text" class="form-control" id="name" name="name" {% if data.name %}style="border: 1px solid #FA896B; color: #FA896B;"{% endif %} value="{{ data.name }}" required/>
+                                          <input type="text" class="form-control" id="name" name="name" {% if alert.name %}style="border: 1px solid #FA896B; color: #FA896B;"{% endif %} value="{{ data.name }}" required/>
                                       </p>
                                   </div>
                                   <div class="col-md-6 mb-3">
                                       <h5 class="card-text">CPF: </h5>
-                                      <input type="text" class="form-control" id="cpf" name="cpf" minlength="14" maxlength="14" {% if data.register %}style="border: 1px solid #FA896B; color: #FA896B;"{% endif %} value="{{ data.register }}" onkeydown="javascript: fMasc( this, mCPF );"/>
+                                      <input type="text" class="form-control" id="cpf" name="cpf" minlength="14" maxlength="14" {% if alert.register %}style="border: 1px solid #FA896B; color: #FA896B;"{% endif %} value="{{ data.register }}" onkeydown="javascript: fMasc( this, mCPF );"/>
                                   </div>
                               </div>
 
@@ -96,14 +96,14 @@
                                       <h5 class="card-text">Sexo: </h5>
                                       <select name="sex" id="sex" class="form-select" aria-label="Default select example">
                                           <option value="">Não Informado</option>
-                                          <option value="M">Masculino</option>
-                                          <option value="F">Feminino</option>
-                                          <option value="O">Outro</option>
+                                          <option {% if data.sex == 'M' %}selected {% endif %}value="M">Masculino</option>
+                                          <option {% if data.sex == 'F' %}selected {% endif %}value="F">Feminino</option>
+                                          <option {% if data.sex == 'O' %}selected {% endif %}value="O">Outro</option>
                                       </select>
                                   </div>
                                   <div class="col-md-6 mb-3">
                                       <h5 class="card-text">Data Nascimento: </h5>
-                                      <input type="date" class="form-control" id="birthday" name="birthday" value="" maxlength="10"/>
+                                      <input type="date" class="form-control" id="birthday" name="birthday" {% if alert.birthday %}style="border: 1px solid #FA896B; color: #FA896B;"{% endif %} value="{{ data.birthday }}" maxlength="10"/>
                                   </div>
                               </div> 
 

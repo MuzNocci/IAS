@@ -5,7 +5,7 @@ from system.clients import actions
 
 urlpatterns = [
        
-    # PAGES
+    # PAGE VIEWS
     path('clients/', views.clients, name="clients"),
     path('client/register/', views.client_register, name="client_register"),
     path('client/<id>', views.client_show, name="client_show"),

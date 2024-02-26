@@ -100,10 +100,10 @@ def client_show(request, id=0):
     phone_treated = remove_char(client.phone,'() -')
     created_at = str(client.created_at)
     created_at_date = created_at[8:10]+'/'+created_at[5:7]+'/'+created_at[0:4]
-    created_at_hour = created_at[11:13]+':'+created_at[14:16]
+    created_at_hour = created_at[11:13]+':'+created_at[14:16]+':'+created_at[17:19]
     updated_at = str(client.updated_at)
     updated_at_date = updated_at[8:10]+'/'+updated_at[5:7]+'/'+updated_at[0:4]
-    updated_at_hour = updated_at[11:13]+':'+updated_at[14:16]
+    updated_at_hour = updated_at[11:13]+':'+updated_at[14:16]+':'+updated_at[17:19]
 
     context = {
         'logged_user':logged_user,
