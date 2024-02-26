@@ -165,11 +165,11 @@ LOGIN_URL = '/auth/signin'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'mail.nocciolli.com.br'
-EMAIL_HOST_USER = ('IAS', 'ias@nocciolli.com.br')
-EMAIL_HOST_PASSWORD = 'muH32804'
-EMAIL_USE_TLS = True
-EMAIL_PORT = '587'
+EMAIL_HOST = environ.Env(EMAIL_HOST=(str))
+EMAIL_HOST_USER = environ.Env(EMAIL_HOST_USER=(str))
+EMAIL_HOST_PASSWORD = environ.Env(EMAIL_HOST_PASSWORD=(str))
+EMAIL_USE_TLS = environ.Env(EMAIL_USE_TLS=(bool, False))
+EMAIL_PORT = environ.Env(EMAIL_PORT=(str))
 
 
 # Default sessions settings
