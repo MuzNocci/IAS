@@ -60,23 +60,50 @@ def client_create(request):
 
 
         client_email_marketing = request.POST.get('email_marketing', 0)
+
         client_phone = request.POST.get('phone', "")
-        client_email = request.POST.get('email', "")
+        if client_phone != '':
+            if not validators.valid_mail(client_phone):
+                alert['phone'] = '- Telefone inválido.'
+
+
+
         client_whatsapp = request.POST.get('whatsapp', 0)
+
         client_surname = request.POST.get('surname', "")
+        if client_surname != '':
+            if not validators.valid_name(client_surname):
+                alert['surname'] = '- Nome inválido.'
+
         client_registration = request.POST.get('registration', "")
+        if client_registration != '':
+            if not validators.valid_cpf(client_registration):
+                alert['CNPJ'] = '- CNPJ inválido.'
+
         client_sector = request.POST.get('sector', "")
+
         client_jobposition = request.POST.get('jobposition', 0)
+
         client_icms_exempt = request.POST.get('icms_exempt', 0)
+
         client_simple_tax = request.POST.get('simple_tax', "")
+
         client_zipcode = request.POST.get('zipcode', "")
+
         client_address = request.POST.get('address', "")
+
         client_number_address = request.POST.get('number_address', "")
+
         client_complement_address = request.POST.get('complement_address', "")
+
         client_district = request.POST.get('district', "")
+
         client_city = request.POST.get('city', "")
+
         client_state = request.POST.get('state', "")
+
         client_country = request.POST.get('country', "")
+        
         client_observation = request.POST.get('observation', "")
         
         if len(alert) != 0:
@@ -190,7 +217,7 @@ def client_update(request, id=0):
             updated_at=timezone.now()
 
         )
-        return HttpResponseRedirect(reverse('client_edit', kwargs={'id':client.id}))
+        return HttpResponseRedirect(reverse('client_show', kwargs={'id':client.id}))
 
 
 # PAGE - PHOTO DELETE
