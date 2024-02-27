@@ -1,6 +1,6 @@
-import environ
 import os
 from pathlib import Path
+from decouple import config
 
 
 
@@ -11,11 +11,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-SECRET_KEY = environ.Env(SECRET_KEY=(str))
+SECRET_KEY = config('SECRET_KEY')
 
-DEBUG = environ.Env(DEBUG=(bool, False))
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ["localhost","127.0.0.1","djangostream","154.56.61.105","ias.nocciolli.com.br"]
+#ALLOWED_HOSTS = ["localhost","127.0.0.1","djangostream","154.56.61.105","ias.nocciolli.com.br"]
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda hosts: [h.strip() for h in hosts.split(',')])
 
 CSRF_TRUSTED_ORIGINS = ["http://localhost","http://127.0.0.1","https://localhost","https://127.0.0.1","https://djangostream","https://154.56.61.105","https://ias.nocciolli.com.br"]
 
@@ -82,10 +83,13 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
 
-    # DEVELOPMENT
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": config('ENGINE', default='django.db.backends.sqlite3'),
+        "HOST": config('HOST', default=''),
+        "PORT": config('PORT', default=0, cast=int),
+        "NAME": config('NAME', default=BASE_DIR/'db.sqlite3'),
+        "USER": config('USER', default=''),
+        "PASSWORD": config('PASSWORD', default=''),
     }
 
 }
@@ -154,18 +158,17 @@ LOGIN_URL = '/auth/signin'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = environ.Env(EMAIL_HOST=(str))
-EMAIL_HOST_USER = environ.Env(EMAIL_HOST_USER=(str))
-EMAIL_HOST_PASSWORD = environ.Env(EMAIL_HOST_PASSWORD=(str))
-EMAIL_USE_TLS = environ.Env(EMAIL_USE_TLS=(bool, False))
-EMAIL_PORT = environ.Env(EMAIL_PORT=(str))
+EMAIL_HOST = config('EMAIL_HOST', default='localhost')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS')
+EMAIL_PORT = config('EMAIL_PORT', default=25, cast=int)
 
 
 # Default sessions settings
-
-# SESSION_COOKIE_AGE = 86400
-# SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-# SESSION_SAVE_EVERY_REQUEST = True
+SESSION_COOKIE_AGE = 86400
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_SAVE_EVERY_REQUEST = True
 
 
 # Default primary key field type

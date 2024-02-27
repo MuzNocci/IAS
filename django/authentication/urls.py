@@ -2,10 +2,10 @@ from django.urls import path
 from authentication import views
 
 
+
 urlpatterns = [
 
     # LOGIN SYSTEM
-
     # path('signup/', views.maintenance, name="signup"),
     path('signup/', views.signup, name="signup"),
     path('signin/', views.signin, name="signin"),

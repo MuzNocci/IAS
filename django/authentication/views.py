@@ -9,12 +9,13 @@ from authentication.models import Userdata
 from system.business.models import Business
 
 
-# PAGE - MAINTENANCE
+
+### PAGE - MAINTENANCE
 def maintenance(request):
     return render(request, 'maintenance.html')
 
 
-# SCRIPT - CREATE USER
+### SCRIPT - CREATE USER
 @csrf_protect
 def signup(request):
     
@@ -112,7 +113,7 @@ def signup(request):
     return render(request, 'signup.html')
 
 
-# PAGE/SCRIPT - LOGIN
+### PAGE/SCRIPT - LOGIN
 @csrf_protect
 def signin(request):
     
@@ -145,7 +146,7 @@ def signin(request):
     return render(request, 'signin.html')
 
 
-# PAGE/SCRIPT - RESET PASSWORD
+### PAGE/SCRIPT - RESET PASSWORD
 @csrf_protect
 def forgot(request):
     
@@ -192,7 +193,7 @@ def forgot(request):
     return render(request, 'forgot.html')
 
 
-# PAGE/SCRIPT - RESET PASSWORD
+### PAGE/SCRIPT - RESET PASSWORD
 @csrf_protect
 def forgot_success(request):
     
@@ -200,7 +201,7 @@ def forgot_success(request):
     return render(request, 'forgot_success.html')
 
 
-# PAGE/SCRIPT - RESET PASSWORD
+### PAGE/SCRIPT - RESET PASSWORD
 @csrf_protect
 def reset_password(request):
     
@@ -212,7 +213,7 @@ def reset_password(request):
     pass
 
 
-# SCRIPT
+### SCRIPT
 def signout(request):
     
     logout(request)

@@ -3,6 +3,7 @@ from django.core.validators import MaxValueValidator
 from django.utils import timezone
 
 
+
 ### TABELA :: USERDATA
 class Userdata(models.Model):
     

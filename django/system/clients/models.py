@@ -2,45 +2,45 @@ from django.db import models
 from django.core.validators import MaxValueValidator
 from django.utils import timezone
 
-
-SEX_CHOICES = (
-    ('M','Masculino'),
-    ('F','Feminino'),
-    ('O','Outro'),
-)
-
-STATE_CHOICES = (
-    ('AC', 'Acre'), 
-    ('AL', 'Alagoas'),
-    ('AP', 'Amapá'),
-    ('BA', 'Bahia'),
-    ('CE', 'Ceará'),
-    ('DF', 'Distrito Federal'),
-    ('ES', 'Espírito Santo'),
-    ('GO', 'Goiás'),
-    ('MA', 'Maranão'),
-    ('MG', 'Minas Gerais'),
-    ('MS', 'Mato Grosso do Sul'),
-    ('MT', 'Mato Grosso'),
-    ('PA', 'Pará'),
-    ('PB', 'Paraíba'),
-    ('PE', 'Pernanbuco'),
-    ('PI', 'Piauí'),
-    ('PR', 'Paraná'),
-    ('RJ', 'Rio de Janeiro'),
-    ('RN', 'Rio Grande do Norte'),
-    ('RO', 'Rondônia'),
-    ('RR', 'Roraima'),
-    ('RS', 'Rio Grande do Sul'),
-    ('SC', 'Santa Catarina'),
-    ('SE', 'Sergipe'),
-    ('SP', 'São Paulo'),
-    ('TO', 'Tocantins')
-)
     
 
 ### TABELA :: CLIENTS
 class Clients(models.Model):
+
+    SEX_CHOICES = (
+        ('M','Masculino'),
+        ('F','Feminino'),
+        ('O','Outro'),
+    )
+
+    STATE_CHOICES = (
+        ('AC', 'Acre'), 
+        ('AL', 'Alagoas'),
+        ('AP', 'Amapá'),
+        ('BA', 'Bahia'),
+        ('CE', 'Ceará'),
+        ('DF', 'Distrito Federal'),
+        ('ES', 'Espírito Santo'),
+        ('GO', 'Goiás'),
+        ('MA', 'Maranão'),
+        ('MG', 'Minas Gerais'),
+        ('MS', 'Mato Grosso do Sul'),
+        ('MT', 'Mato Grosso'),
+        ('PA', 'Pará'),
+        ('PB', 'Paraíba'),
+        ('PE', 'Pernanbuco'),
+        ('PI', 'Piauí'),
+        ('PR', 'Paraná'),
+        ('RJ', 'Rio de Janeiro'),
+        ('RN', 'Rio Grande do Norte'),
+        ('RO', 'Rondônia'),
+        ('RR', 'Roraima'),
+        ('RS', 'Rio Grande do Sul'),
+        ('SC', 'Santa Catarina'),
+        ('SE', 'Sergipe'),
+        ('SP', 'São Paulo'),
+        ('TO', 'Tocantins')
+    )
 
     business = models.IntegerField(validators=[MaxValueValidator(99999999999)], blank=False, null=False)
     name = models.CharField(max_length=254, blank=False, null=False)
