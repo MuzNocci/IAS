@@ -36,7 +36,7 @@ STATE_CHOICES = (
 ### TABELA :: BUSINESS
 class Business(models.Model):
     
-    owner_id = models.IntegerField(validators=[MaxValueValidator(99999999999)], blank=False, null=False)
+    token = models.CharField(max_length=16, unique=True)
     name = models.CharField(max_length=254, blank=True, null=True) # RAZÃO SOCIAL
     surname = models.CharField(max_length=45, blank=False, null=False) # NOME FANTASIA
     register = models.CharField(max_length=18, unique=True, blank=True, null=True) # CNPJ
@@ -62,4 +62,4 @@ class Business(models.Model):
     is_active = models.BooleanField(default=True)
 
     def __str__(self) -> str:
-        return self.id
+        return self.token

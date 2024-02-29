@@ -42,7 +42,7 @@ class Userdata(models.Model):
         ('TO', 'Tocantins')
     )
     
-    email = models.CharField(max_length=150, unique=True, blank=False)
+    email = models.CharField(max_length=150, unique=True, blank=False, null=False)
     email_marketing = models.BooleanField(default=False)
     email_verified = models.BooleanField(default=False)
     photo = models.CharField(max_length=255, blank=True, null=True)
@@ -58,7 +58,7 @@ class Userdata(models.Model):
     state = models.CharField(max_length=2, choices=STATE_CHOICES, blank=True, null=True)
     country = models.CharField(max_length=255, blank=True, null=True)
     level = models.IntegerField(validators=[MaxValueValidator(99)], blank=True, null=True) # Criar relacionamento
-    business = models.IntegerField(validators=[MaxValueValidator(99999999999)], blank=False, null=False)
+    business = models.CharField(max_length=16, blank=True, null=True)
     plan = models.IntegerField(validators=[MaxValueValidator(99)], blank=True, null=True) # Criar relacionamento
     plan_expire = models.DateField(blank=True, null=True)
     remember_token = models.CharField(max_length=128, unique=True, blank=False, null=True)

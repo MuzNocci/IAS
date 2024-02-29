@@ -28,7 +28,7 @@
                 <div class="col-md-12">
                     <div class="body-card mt-3 ta-right">
                         <p style="text-align: right; margin-bottom: 0;">
-                            <a href="{% url 'clients' %}" class="btn btn-dark" style="margin-right:5px;" alt="Voltar" title="Voltar"><i class="ti ti-arrow-back-up"></i></a> <a href="/auth/client/edit/{{ client.id }}" class="btn btn-primary" style="margin-right:5px;" alt="Editar" title="Editar"><i class="ti ti-edit"></i> Editar</a> <a href="/auth/client/delete/{{ client.id }}" class="btn btn-danger" alt="Deletar" title="Deletar"><i class="ti ti-trash"></i> Deletar</a>
+                            <a href="{% url 'clients' %}" class="btn btn-dark" style="margin-right:5px;" alt="Voltar" title="Voltar"><i class="ti ti-arrow-back-up"></i></a> <a href="/auth/client/edit/{{ client.token }}" class="btn btn-primary" style="margin-right:5px;" alt="Editar" title="Editar"><i class="ti ti-edit"></i> Editar</a> <a href="/auth/client/delete/{{ client.token }}" class="btn btn-danger" alt="Deletar" title="Deletar"><i class="ti ti-trash"></i> Deletar</a>
                         </p>
                     </div>
                 </div>                    
@@ -92,7 +92,7 @@
 
                             <div class="row">
                                 <div class="col-md-12 mb-3">
-                                    <h5 class="card-text">Id: #{{ client.id }}</h5>
+                                    <h5 class="card-text">Cadastro do Cliente</h5>
                                 </div>
                             </div>
 
@@ -404,7 +404,7 @@
             </div>
 
             <p class="mt-0 mb-0 ta-right">
-                <a href="{% url 'clients' %}" class="btn btn-dark" style="margin-right:5px;" alt="Voltar" title="Voltar"><i class="ti ti-arrow-back-up"></i></a> <a href="/auth/client/edit/{{ client.id }}" class="btn btn-primary" style="margin-right:5px;" alt="Editar" title="Editar"><i class="ti ti-edit"></i> Editar</a> <a href="/auth/client/delete/{{ client.id }}" class="btn btn-danger" alt="Deletar" title="Deletar"><i class="ti ti-trash"></i> Deletar</a>
+                <a href="{% url 'clients' %}" class="btn btn-dark" style="margin-right:5px;" alt="Voltar" title="Voltar"><i class="ti ti-arrow-back-up"></i></a> <a href="/auth/client/edit/{{ client.token }}" class="btn btn-primary" style="margin-right:5px;" alt="Editar" title="Editar"><i class="ti ti-edit"></i> Editar</a> <a href="/auth/client/delete/{{ client.token }}" class="btn btn-danger" alt="Deletar" title="Deletar"><i class="ti ti-trash"></i> Deletar</a>
             </p>
 
         </div>

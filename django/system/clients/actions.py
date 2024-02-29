@@ -8,12 +8,12 @@ from core.settings import BASE_DIR
 from authentication import validators
 from django.utils import timezone
 from datetime import datetime
-
-
+from django.utils.crypto import get_random_string
 # Import Models
 from django.contrib.auth.models import User
 from authentication.models import Userdata
 from system.clients.models import Clients
+
 
 
 # PAGE - CLIENT CREATE
@@ -26,17 +26,20 @@ def client_create(request):
         logged_userdata = Userdata.objects.get(email=request.user)
         
         alert = {}
-        
+
         photo = request.FILES.get('photo', "")
         client_photo = ''
         if photo != '':
-            if validators.valid_file(photo.name) == 'jpg' or validators.valid_file(photo.name) == 'png' or validators.valid_file(photo.name) == 'svg'  or validators.valid_file(photo.name) == 'jpeg':
+            if validators.valid_type(photo.name, ['jpg','png','gif','svg','jpeg']):
+
                 image = Image.open(photo)
-                client_photo = f'{timezone.localtime(timezone.now()).strftime('%Y%m%dT%H%M%S')}00{request.user.id}.{validators.valid_file(photo.name)}'
+                client_photo = f'{timezone.localtime(timezone.now()).strftime('%Y%m%dT%H%M%S')}00{request.user.id}.{validators.file_extension(photo.name)}'
                 
                 if not os.path.isdir(os.path.join(BASE_DIR,f'static/system/images/customers/{logged_userdata.business}/')):
                     os.makedirs(os.path.join(BASE_DIR,f'static/system/images/customers/{logged_userdata.business}/'))
+            
             else:
+
                 alert['photo'] = '- Imagem inválida.'
         
         client_name = request.POST.get('name')
@@ -127,6 +130,7 @@ def client_create(request):
         else:
             
             new_client = Clients(
+                token = get_random_string(length=64),
                 business = logged_userdata.business,
                 photo = client_photo,
                 name = client_name,
@@ -168,13 +172,13 @@ def client_create(request):
 
 # PAGE - CLIENT UPDATE
 @login_required
-def client_update(request, id=0):
+def client_update(request, token):
 
     if request.method == 'POST':
 
         logged_user = User.objects.get(username=request.user)
         logged_userdata = Userdata.objects.get(email=request.user)
-        client = Clients.objects.get(id=id, business=logged_userdata.business)
+        client = Clients.objects.get(token=token, business=logged_userdata.business)
 
         alert = {}
 
@@ -182,17 +186,18 @@ def client_update(request, id=0):
         client_photo = ''
         
         if photo:
-            if validators.valid_file(photo.name) == 'jpg' or validators.valid_file(photo.name) == 'png' or validators.valid_file(photo.name) == 'svg'  or validators.valid_file(photo.name) == 'jpeg':
+            if validators.valid_type(photo.name, ['jpg','png','gif','svg','jpeg']):
                 
                 image = Image.open(photo)
-                client_photo = f'{timezone.localtime(timezone.now()).strftime('%Y%m%dT%H%M%S')}00{request.user.id}.{validators.valid_file(photo.name)}'
+                client_photo = f'{timezone.localtime(timezone.now()).strftime('%Y%m%dT%H%M%S')}00{request.user.id}.{validators.file_extension(photo.name)}'
             
-                if not os.path.isdir(os.path.join(BASE_DIR,f'static/system/images/customers/{logged_userdata.business}/{client.photo}')):
-                    os.remove(os.path.join(BASE_DIR,f'static/system/images/customers/{logged_userdata.business}/{client.photo}'))
+                if client.photo != '':
+                    if os.path.isdir(os.path.join(BASE_DIR,f'static/system/images/customers/{logged_userdata.business}/{client.photo}')):
+                        os.remove(os.path.join(BASE_DIR,f'static/system/images/customers/{logged_userdata.business}/{client.photo}'))
                 
                 if not os.path.isdir(os.path.join(BASE_DIR,f'static/system/images/customers/{logged_userdata.business}/')):
                     os.makedirs(os.path.join(BASE_DIR,f'static/system/images/customers/{logged_userdata.business}/'))
-                
+            
                 image.save(os.path.join(BASE_DIR, f'static/system/images/customers/{logged_userdata.business}/{client_photo}'))
             
             else:
@@ -214,7 +219,13 @@ def client_update(request, id=0):
 
         client_birthday = request.POST.get('birthday', False)
 
-        Clients.objects.filter(id=id).update(
+
+        if len(alert) > 0:
+
+            return HttpResponseRedirect(reverse('client_show', kwargs={'token':client.token}))
+        
+
+        Clients.objects.filter(token=token, business=logged_userdata.business).update(
 
             photo=client_photo,
             name=client_name,
@@ -223,34 +234,34 @@ def client_update(request, id=0):
             updated_at=timezone.now()
 
         )
-        return HttpResponseRedirect(reverse('client_show', kwargs={'id':client.id}))
+        return HttpResponseRedirect(reverse('client_show', kwargs={'token':client.token}))
 
 
 # PAGE - PHOTO DELETE
 @login_required
-def photo_delete(request, id=0):
+def photo_delete(request, token):
 
     logged_userdata = Userdata.objects.get(email=request.user)
-    client = Clients.objects.get(id=id, business=logged_userdata.business)
+    client = Clients.objects.get(token=token, business=logged_userdata.business)
 
     try:
         os.remove(os.path.join(BASE_DIR,f'static/system/images/customers/{logged_userdata.business}/{client.photo}'))
     except:
         pass
 
-    Clients.objects.filter(id=id).update(photo='')
+    Clients.objects.filter(token=token).update(photo='')
 
-    return HttpResponseRedirect(reverse('client_edit', kwargs={'id':client.id}))
+    return HttpResponseRedirect(reverse('client_edit', kwargs={'token':client.token}))
 
 
 # PAGE - CLIENT DELETE
 @login_required
-def client_delete(request, id=0):
+def client_delete(request, token):
 
     if request.method == 'POST':
 
         logged_userdata = Userdata.objects.get(email=request.user)
-        client = Clients.objects.get(id=id, business=logged_userdata.business)
+        client = Clients.objects.get(token=token, business=logged_userdata.business)
 
         try:
             os.remove(os.path.join(BASE_DIR,f'static/system/images/customers/{logged_userdata.business}/{client.photo}'))

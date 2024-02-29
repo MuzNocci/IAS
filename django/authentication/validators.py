@@ -7,6 +7,7 @@ import datetime
 # VALID NAME
 def valid_name(name):
 
+
     name = name.replace(' ','')
 
     if len(name) > 2:
@@ -16,15 +17,19 @@ def valid_name(name):
                 return False
         return True
     
+    
     return False
+
 
 
 # VALID CPF
 def valid_cpf(CPF):
 
+
     try:
 
         CPF = CPF.replace('.','').replace('-','')
+
 
         def first_digit(CPF):
 
@@ -39,6 +44,7 @@ def valid_cpf(CPF):
             CPF_first_digit = CPF_first_digit if CPF_first_digit < 10 else 0
             
             return True if CPF_first_digit == int(CPF[9]) else False
+
 
         def second_digit(CPF):
 
@@ -62,8 +68,11 @@ def valid_cpf(CPF):
         return False
     
 
+
 # VALID CNPJ
 def valid_cnpj(cnpj):
+
+
     cnpj = cnpj.replace('.', '').replace('/', '').replace('-', '')
 
     if len(cnpj) == 14:
@@ -75,6 +84,7 @@ def valid_cnpj(cnpj):
     cnpj = cnpj[:12]
 
     try:
+
         dig_1 = int(cnpj[0]) * 6
         dig_2 = int(cnpj[1]) * 7
         dig_3 = int(cnpj[2]) * 8
@@ -87,7 +97,9 @@ def valid_cnpj(cnpj):
         dig_10 = int(cnpj[9]) * 7
         dig_11 = int(cnpj[10]) * 8
         dig_12 = int(cnpj[11]) * 9
+
     except IndexError:
+
         return False
 
     dig_1_ao_12_somados = (dig_1 + dig_2 + dig_3 + dig_4 + dig_5 + dig_6 +
@@ -128,22 +140,29 @@ def valid_cnpj(cnpj):
             cnpj_validado[5:8] + '/' + cnpj_validado[8:12] + '-' + cnpj_validado[12:])
 
     if validar:
+
         if digitos_verificadores == cnpj_validado[13:]:
             return True
         else:
             return False
+        
     else:
+
         return False
+
 
 
 # VALID MAIL
 def valid_mail(email):
     
+
     return re.search(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+', email) != None
+
 
 
 # VALID PHONE
 def valid_phone(phone):
+
 
     phone = utils.remove_char(phone,'() -')
 
@@ -153,24 +172,34 @@ def valid_phone(phone):
                 return False
         return True
     
+    
     return False
 
 
-# VALID FILE
-def valid_file(fullname):
+
+# VALID TYPE
+def valid_type(filename:str, types:list):
+
     
-    divisor = fullname.split('.')
-    extension = len(divisor)-1
-    
-    return divisor[extension]
+    extension = utils.file_extension(filename)
+
+    for type in types:
+        if type == extension:
+            return "True"
+        
+
+    return "False"
+
 
 
 # VALID DATE
 def valid_date(date):
 
+
     date_split = str(date).split('-')
 
     if datetime.date(year=1900, month=1, day=1) < datetime.date(year=int(date_split[0]), month=int(date_split[1]), day=int(date_split[2])) <= datetime.date.today():
         return True
+
 
     return False

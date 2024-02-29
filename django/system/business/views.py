@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from authentication.models import Userdata
 
 
-@login_required(login_url='/auth/signin')
+@login_required
 def business(request):
     
     logged_user = User.objects.get(username=request.user)

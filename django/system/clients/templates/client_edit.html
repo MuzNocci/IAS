@@ -7,7 +7,7 @@
 <div class="container-fluid">
     <div class="card">
         <div class="card-body">
-            <form method="post" action="{% url 'client_update' client.id %}" enctype="multipart/form-data">
+            <form method="post" action="{% url 'client_update' client.token %}" enctype="multipart/form-data">
                 {% csrf_token %}
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-chevron p-3 bg-light-primary rounded">
@@ -21,7 +21,7 @@
                         <a class="link-body-emphasis text-decoration-none" href="{% url 'clients' %}">Clientes</a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">
-                        <a class="link-body-emphasis text-decoration-none" href="{% url 'client_show' client.id %}">Cliente</a>
+                        <a class="link-body-emphasis text-decoration-none" href="{% url 'client_show' client.token %}">Cliente</a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">
                         Editar
@@ -45,7 +45,7 @@
                 <div class="col-md-12">
                     <div class="body-card mt-3 ta-right">
                         <p style="text-align: right; margin-bottom: 0;">
-                            <a href="{% url 'client_show' client.id %}" class="btn btn-dark" alt="Voltar" title="Voltar" style="margin-right:5px;"><i class="ti ti-arrow-back-up"></i></a>
+                            <a href="{% url 'client_show' client.token %}" class="btn btn-dark" alt="Voltar" title="Voltar" style="margin-right:5px;"><i class="ti ti-arrow-back-up"></i></a>
                             <button type="submit" class="btn btn-primary" alt="Salvar" title="Salvar" style="margin-right:5px;"><i class="ti ti-device-floppy"></i> Salvar</button>
                         </p>
                     </div>
@@ -61,7 +61,7 @@
                         {% if client.photo %}
                         <div style="position:relative;">
                             <img id="imgphoto" src="{% static 'system/images/customers/'  %}{{ logged_data.business }}/{{ client.photo   }}" width="100%" style="border-radius:10px;" alt="IAS" />
-                            <a id="delimg" href="{% url 'photo_delete' client.id %}">
+                            <a id="delimg" href="{% url 'photo_delete' client.token %}">
                                 <button type="button" class="xbutton" alt="Remover imagem" title="Remover imagem">
                                   <i class="ti ti-x"></i>
                                 </button>
@@ -338,7 +338,7 @@
             </div>
 
             <p style="text-align: right; margin-bottom: 0;">
-                <a href="{% url 'client_show' client.id %}" class="btn btn-dark" alt="Voltar" title="Voltar" style="margin-right:5px;"><i class="ti ti-arrow-back-up"></i></a>
+                <a href="{% url 'client_show' client.token %}" class="btn btn-dark" alt="Voltar" title="Voltar" style="margin-right:5px;"><i class="ti ti-arrow-back-up"></i></a>
                 <button type="submit" class="btn btn-primary" alt="Salvar" title="Salvar" style="margin-right:5px;"><i class="ti ti-device-floppy"></i> Salvar</button>
             </p>
 

@@ -113,7 +113,7 @@
                                     <tbody>
                                     {% if pages %}
                                         {% for client in pages %}                        
-                                        <tr onclick="location.href='/auth/client/{{ client.id }}'">
+                                        <tr onclick="location.href='/auth/client/{{ client.token }}'">
                                             <th scope="row" class="text-start">
                                                 {% if client.photo != '' %}
                                                 <img src="{% static 'system/images/customers/' %}{{ logged_data.business }}/{{ client.photo }}" style="border-radius:10%; width:35px; height:35px;" alt="" />

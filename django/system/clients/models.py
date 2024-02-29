@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MaxValueValidator
 from django.utils import timezone
+from system.business.models import Business
 
     
 
@@ -42,7 +43,8 @@ class Clients(models.Model):
         ('TO', 'Tocantins')
     )
 
-    business = models.IntegerField(validators=[MaxValueValidator(99999999999)], blank=False, null=False)
+    token = models.CharField(max_length=64, unique=True)
+    business = models.CharField(max_length=16, blank=False, null=False)
     name = models.CharField(max_length=254, blank=False, null=False)
     register = models.CharField(max_length=14, blank=True, null=True)
     surname = models.CharField(max_length=254, blank=True, null=True)

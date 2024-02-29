@@ -1,10 +1,10 @@
+# IMPORT REQUIREMENTS
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Q
 from authentication.utils import remove_char
-
-# Import Models
+# IMPORT MODELS
 from django.contrib.auth.models import User
 from authentication.models import Userdata
 from system.clients.models import Clients
@@ -18,11 +18,14 @@ def clients(request):
     userdata = Userdata.objects.get(email=request.user)
 
     if request.session.get('alert', False):
+
         type_alert = request.session['type_alert'] 
         alert = request.session['alert']
         del(request.session['type_alert'])
         del(request.session['alert'])
+
     else:
+
         type_alert = ''
         alert = ''
     
@@ -57,6 +60,7 @@ def clients(request):
     return render(request, 'clients.html', context)
 
 
+
 # PAGE - CLIENT REGISTER
 @login_required(login_url='/auth/signin')
 def client_register(request):
@@ -65,13 +69,16 @@ def client_register(request):
     logged_userdata = Userdata.objects.get(email=request.user)
 
     if request.session.get('alert', False):
+
         data = request.session['data']
         type_alert = request.session['type_alert'] 
         alert = request.session['alert']
         del(request.session['data'])
         del(request.session['type_alert'])
         del(request.session['alert'])
+
     else:
+
         data = ''
         type_alert = ''
         alert = ''
@@ -87,13 +94,14 @@ def client_register(request):
     return render(request, 'client_register.html', context)
 
 
+
 # PAGE - CLIENT SHOW
 @login_required
-def client_show(request, id=0):
+def client_show(request, token):
 
     logged_user = User.objects.get(username=request.user)
     logged_userdata = Userdata.objects.get(email=request.user)
-    client = Clients.objects.get(id=id, business=logged_userdata.business)
+    client = Clients.objects.get(token=token, business=logged_userdata.business)
 
     birthday_treated = client.birthday[8:10]+'/'+client.birthday[5:7]+'/'+client.birthday[0:4]
     sex_treated = 'Feminino' if client.sex == 'F' else ('Masculino' if client.sex == 'M' else 'Outro')
@@ -120,13 +128,14 @@ def client_show(request, id=0):
     return render(request, 'client_show.html', context)
 
 
+
 # PAGE - CLIENT EDIT
 @login_required
-def client_edit(request, id=0):
+def client_edit(request, token):
 
     logged_user = User.objects.get(username=request.user)
     logged_userdata = Userdata.objects.get(email=request.user)
-    client = Clients.objects.get(id=id, business=logged_userdata.business)
+    client = Clients.objects.get(token=token, business=logged_userdata.business)
 
     context = {
         'logged_user':logged_user,
@@ -136,13 +145,14 @@ def client_edit(request, id=0):
     return render(request, 'client_edit.html', context)
 
 
+
 # PAGE - CLIENT DELETE
 @login_required
-def client_delete(request, id=0):
+def client_delete(request, token):
     
     logged_user = User.objects.get(username=request.user)
     logged_userdata = Userdata.objects.get(email=request.user)
-    client = Clients.objects.get(id=id, business=logged_userdata.business)
+    client = Clients.objects.get(token=token, business=logged_userdata.business)
 
     if request.method == 'POST':
 

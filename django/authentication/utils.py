@@ -33,6 +33,7 @@ def security_code():
     return password
 
 
+
 # REMOVE CHARACTER
 def remove_char(string, chars_to_remove) -> str:
 
@@ -41,3 +42,12 @@ def remove_char(string, chars_to_remove) -> str:
         result = result.replace(chars_to_remove[i],'')
 
     return result
+
+
+
+# FILE EXTENSION
+def file_extension(filename):
+
+    divisor = filename.split('.')
+
+    return divisor[len(divisor)-1]

@@ -7,7 +7,7 @@
 <div class="container-fluid">
     <div class="card">
         <div class="card-body">
-            <form method="post" action="{% url 'profile_delete' client.id %}">
+            <form method="post" action="{% url 'profile_delete' client.token %}">
             {% csrf_token %}
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-chevron p-3 bg-light-primary rounded">
@@ -21,7 +21,7 @@
                         <a class="link-body-emphasis text-decoration-none" href="{% url 'clients' %}">Clientes</a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">
-                        <a class="link-body-emphasis text-decoration-none" href="{% url 'client_show' client.id %}">Cliente</a>
+                        <a class="link-body-emphasis text-decoration-none" href="{% url 'client_show' client.token %}">Cliente</a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">
                         Excluir
@@ -49,7 +49,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="alert alert-danger mb-0"role="alert">
-                                        <p class="mb-0"><i class="ti ti-alert-triangle fs-3"></i> Você deseja realmente excluir o cliente: <b>#{{ client.id }} - {{ client.name }}</b></p>
+                                        <p class="mb-0"><i class="ti ti-alert-triangle fs-3"></i> Você deseja realmente excluir o cliente: <b># {{ client.name }}</b></p>
                                     </div>
                                 </div>
                             </div>
@@ -57,7 +57,7 @@
                     </div>
 
                     <p class="mb-0 mt-0 ta-right">
-                        <a href="{% url 'client_show' client.id %}" class="btn btn-dark" style="margin-right:5px;" alt="Voltar" title="Voltar"><i class="ti ti-arrow-back-up"></i></a>
+                        <a href="{% url 'client_show' client.token %}" class="btn btn-dark" style="margin-right:5px;" alt="Voltar" title="Voltar"><i class="ti ti-arrow-back-up"></i></a>
                         <button type="submit" class="btn btn-danger" alt="Deletar o Clente" title="Deletar o Cliente"><i class="ti ti-trash"></i> Deletar o Cliente</button>
                     </p>
 

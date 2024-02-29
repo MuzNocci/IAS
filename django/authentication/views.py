@@ -1,27 +1,29 @@
+# IMPORT REQUIREMENTS
 from django.shortcuts import render, redirect
 from django.core.mail import EmailMultiAlternatives
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import authenticate, login, logout
 from authentication.validators import valid_cpf, valid_mail
-# import Models
+from django.utils.crypto import get_random_string
+# IMPORT MODELS
 from django.contrib.auth.models import User
 from authentication.models import Userdata
 from system.business.models import Business
 
 
 
-### PAGE - MAINTENANCE
 def maintenance(request):
     return render(request, 'maintenance.html')
 
 
-### SCRIPT - CREATE USER
+
 @csrf_protect
 def signup(request):
     
-    # CREATE USER SCRIPT
+
     if request.method == 'POST':
         
+
         alert = []
         
         user_name = request.POST.get('name')
@@ -30,9 +32,7 @@ def signup(request):
         user_pass = request.POST.get('password')
         conf_pass = request.POST.get('password_confirmation')
         
-        #DATA PROCESSING
-        
-        # NAME
+
         if len(user_name) > 2:
             
             name_split = user_name.split(' ')
@@ -47,7 +47,7 @@ def signup(request):
             
             alert.append('- Nome inválido.')
             
-        # EMAIL
+
         user = User.objects.filter(username=user_mail).first()
         
         if valid_mail(user_mail):
@@ -60,7 +60,7 @@ def signup(request):
             
             alert.append('- E-mail inválido.')
             
-        # CPF
+
         register = Userdata.objects.filter(register=user_register).first()
         
         if register:
@@ -73,7 +73,7 @@ def signup(request):
                 
                 alert.append('- CPF inválido.')
             
-        # PASSWORD
+
         if len(user_pass) < 8:
             
             alert.append('- A senha digitada é muito curta.')
@@ -82,7 +82,7 @@ def signup(request):
             
             alert.append('- As senhas não são iguais.')
             
-        # INPUT ERROR
+
         if len(alert) != 0:
             
             context = {
@@ -93,13 +93,15 @@ def signup(request):
                 'user_cpf':user_register,
             }
             return render(request, 'signup.html', context)
-        
-        # INPUT REGISTER
-        user_new = User.objects.create_user(username=user_mail, first_name=user_firstname, last_name=user_lastname, email=user_mail, password=user_pass)
+
+
+        user_new = User.objects.create_user(username=user_mail, first_name=user_firstname, last_name=user_lastname, password=user_pass)
         user_new.save()
-        business = Business(owner_id=user_new.id,surname='Empresa Teste')
+
+        business = Business(token=get_random_string(length=16),surname='Empresa Teste')
         business.save()
-        user_data = Userdata(email=user_mail, register=user_register, level=1, business=business.id)
+
+        user_data = Userdata(email=user_mail, register=user_register, level=1, business=business.token)
         user_data.save()
         
         context = {
@@ -109,15 +111,15 @@ def signup(request):
         }
         return render(request, 'signin.html', context)
     
-    # LOGIN PAGE
+
     return render(request, 'signup.html')
 
 
-### PAGE/SCRIPT - LOGIN
+
 @csrf_protect
 def signin(request):
     
-    # LOGIN SCRIPT
+
     if request.method == 'POST':
         
         user_mail = request.POST.get('email')
@@ -126,6 +128,7 @@ def signin(request):
         
         user = authenticate(request, username=user_mail, password=user_pass)
         
+
         if user:
             
             login(request, user)
@@ -142,21 +145,21 @@ def signin(request):
             }
             return render(request, 'signin.html', context)
     
-    # LOGIN PAGE
+
     return render(request, 'signin.html')
 
 
-### PAGE/SCRIPT - RESET PASSWORD
+
 @csrf_protect
 def forgot(request):
     
-    # FORGOT SCRIPT
+
     if request.method == 'POST':
         
         user_mail = request.POST.get('email')
         user = User.objects.filter(username=user_mail).first()
         
-        # SCRIPT - MAIL DATA
+
         if user:
             
             subject, from_email, to = "Alteração de Senha", "IAS <muller@nocciolli.com.br>", user_mail
@@ -165,7 +168,7 @@ def forgot(request):
             msg.attach_alternative(html_content, "text/html")
             msg.send()
             
-            # SCRIPT - SEND MAIL
+
             if msg:
                 
                 context = {
@@ -181,41 +184,43 @@ def forgot(request):
                     'alert':'- O e-mail não pode ser enviado, tente novamente mais tarde.',
                 }
                 return render(request, 'forgot.html', context)
+            
         
-        # SCRIPT - INVALID MAIL
         context = {
             'type_alert':'alert-danger',
             'alert':'- E-mail inválido!',
         }
         return render(request, 'forgot.html', context)
     
-    # FORGOT PAGE
+
     return render(request, 'forgot.html')
 
 
-### PAGE/SCRIPT - RESET PASSWORD
+
 @csrf_protect
 def forgot_success(request):
-    
-    # FORGOT PAGE
+
+
     return render(request, 'forgot_success.html')
 
 
-### PAGE/SCRIPT - RESET PASSWORD
+
 @csrf_protect
 def reset_password(request):
     
-    # LOGIN SCRIPT
+
     if request.method == 'POST':
         pass
     
-    # LOGIN PAGE
+
     pass
 
 
-### SCRIPT
+
 def signout(request):
     
+
     logout(request)
     
+
     return redirect('signin')
