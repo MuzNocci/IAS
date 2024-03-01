@@ -1,47 +1,11 @@
+# IMPORT REQUIREMENTS
 from django.db import models
-from django.core.validators import MaxValueValidator
 from django.utils import timezone
-from system.business.models import Business
 
-    
 
-### TABELA :: CLIENTS
+
 class Clients(models.Model):
 
-    SEX_CHOICES = (
-        ('M','Masculino'),
-        ('F','Feminino'),
-        ('O','Outro'),
-    )
-
-    STATE_CHOICES = (
-        ('AC', 'Acre'), 
-        ('AL', 'Alagoas'),
-        ('AP', 'Amapá'),
-        ('BA', 'Bahia'),
-        ('CE', 'Ceará'),
-        ('DF', 'Distrito Federal'),
-        ('ES', 'Espírito Santo'),
-        ('GO', 'Goiás'),
-        ('MA', 'Maranão'),
-        ('MG', 'Minas Gerais'),
-        ('MS', 'Mato Grosso do Sul'),
-        ('MT', 'Mato Grosso'),
-        ('PA', 'Pará'),
-        ('PB', 'Paraíba'),
-        ('PE', 'Pernanbuco'),
-        ('PI', 'Piauí'),
-        ('PR', 'Paraná'),
-        ('RJ', 'Rio de Janeiro'),
-        ('RN', 'Rio Grande do Norte'),
-        ('RO', 'Rondônia'),
-        ('RR', 'Roraima'),
-        ('RS', 'Rio Grande do Sul'),
-        ('SC', 'Santa Catarina'),
-        ('SE', 'Sergipe'),
-        ('SP', 'São Paulo'),
-        ('TO', 'Tocantins')
-    )
 
     token = models.CharField(max_length=64, unique=True)
     business = models.CharField(max_length=16, blank=False, null=False)
@@ -56,7 +20,7 @@ class Clients(models.Model):
     email_marketing = models.BooleanField(default=False)
     phone = models.CharField(max_length=15, blank=True, null=True)
     whatsapp = models.BooleanField(default=False)
-    sex = models.CharField(max_length=1, choices=SEX_CHOICES, blank=True, null=True)
+    genre = models.CharField(max_length=1, blank=True, null=True)
     birthday = models.CharField(max_length=10, blank=True, null=True)
     observation = models.TextField(blank=True, null=True)
     zipcode = models.CharField(max_length=9, blank=True, null=True)
@@ -65,7 +29,7 @@ class Clients(models.Model):
     complement_address = models.CharField(max_length=100, blank=True, null=True)
     district = models.CharField(max_length=45, blank=True, null=True)
     city = models.CharField(max_length=45, blank=True, null=True)
-    state = models.CharField(max_length=2, choices=STATE_CHOICES, blank=True, null=True)
+    state = models.CharField(max_length=2, blank=True, null=True)
     country = models.CharField(max_length=255, blank=True, null=True)
     icms_exempt = models.BooleanField(default=False)
     simple_tax = models.BooleanField(default=False)
@@ -75,5 +39,6 @@ class Clients(models.Model):
     updated_at = models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=True)
     
+
     def __str__(self) -> int:
         return self.id

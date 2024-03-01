@@ -29,7 +29,7 @@
                 </ol>
             </nav>
 
-            {% if alert.items > 0 %}
+            {% if alert %}
             <div id="info" name="info" class="row">
                 <div class="col-md-12">
                     <div class="alert {{ type_alert }} mb-3" role="alert">
@@ -68,7 +68,7 @@
                             </a>
                         </div>
                         {% else %}
-                            {% if client.sex == 'F' %}
+                            {% if client.genre == 'F' %}
                                 <img id="imgphoto" src="{% static 'system/images/customers/' %}customer_woman.png" width="100%" style="border-radius:10px;" alt="IAS" />
                             {% else %}
                                 <img id="imgphoto" src="{% static 'system/images/customers/' %}customer_man.png" width="100%" style="border-radius:10px;" alt="IAS" />
@@ -89,7 +89,7 @@
 
                             <div class="row">
                                 <div class="col-md-12 mb-3">
-                                    <h5 class="card-text">Id: #{{ client.id }}</h5>
+                                    <h5 class="card-text">Cadastro do Cliente</h5>
                                 </div>
                             </div>
 
@@ -105,7 +105,7 @@
                                 <div class="col-md-6 mb-3">
                                     <h5 class="card-text">Nome: </h5>
                                     <p class="card-text">
-                                        <input type="text" class="form-control" id="name" name="name" value="{{ client.name }}" required/>
+                                        <input type="text" class="form-control" id="name" name="name" value="{% if data.name %}{{ data.name }}{% else %}{{ client.name }}{% endif %}" required/>
                                     </p>
                                 </div>
                                 <div class="col-md-6 mb-3">
@@ -120,12 +120,12 @@
 
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <h5 class="card-text">Sexo: </h5>
-                                    <select name="sex" id="sex" class="form-select" aria-label="Default select example">
-                                        <option {% if client.sex == '' %} selected {% endif %} value="">Não Informado</option>
-                                        <option {% if client.sex == 'M' %} selected {% endif %} value="Masculino">Masculino</option>
-                                        <option {% if client.sex == 'F' %} selected {% endif %} value="Feminino">Feminino</option>
-                                        <option {% if client.sex == 'O' %} selected {% endif %} value="Outro">Outro</option>
+                                    <h5 class="card-text">Gênero: </h5>
+                                    <select name="genre" id="genre" class="form-select" aria-label="Default select example">
+                                        <option {% if client.genre == '' %} selected {% endif %} value="">Não Informado</option>
+                                        <option {% if client.genre == 'M' %} selected {% endif %} value="M">Masculino</option>
+                                        <option {% if client.genre == 'F' %} selected {% endif %} value="F">Feminino</option>
+                                        <option {% if client.genre == 'O' %} selected {% endif %} value="O">Outro</option>
                                     </select>
                                 </div>
                                 <div class="col-md-6 mb-3">

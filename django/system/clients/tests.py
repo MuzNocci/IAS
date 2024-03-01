@@ -1,17 +1,30 @@
 from django.test import TestCase
-import datetime
+
+# FILE EXTENSION
+def file_extension(filename):
 
 
-# Create your tests here.
+    divisor = filename.split('.')
 
-# VALID DATE
-def valid_date(date):
 
-    date_split = str(date).split('-')
+    return divisor[len(divisor)-1]
 
-    if datetime.date(year=1900, month=1, day=1) < datetime.date(year=int(date_split[0]), month=int(date_split[1]), day=int(date_split[2])) <= datetime.date.today():
-        return True
+# VALID TYPE
+def valid_type(filename:str, types:list):
+
+    
+    extension = file_extension(filename)
+
+    for type in types:
+        if type == extension:
+            return True
+        
 
     return False
 
-print(valid_date('1985-11-05'))
+
+# Create your tests here.
+photo = 'fdasfasfasdfasdfsad.jpg'
+
+# VALID DATE
+print(valid_type(photo, ['jpg','png','gif','svg','jpeg']))

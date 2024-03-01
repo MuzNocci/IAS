@@ -1,6 +1,8 @@
+# IMPORT REQUIREMENTS
 from django.db import models
 from django.core.validators import MaxValueValidator
 from django.utils import timezone
+
 
 
 STATE_CHOICES = (
@@ -33,7 +35,6 @@ STATE_CHOICES = (
 )
     
 
-### TABELA :: BUSINESS
 class Business(models.Model):
     
     token = models.CharField(max_length=16, unique=True)
@@ -60,6 +61,7 @@ class Business(models.Model):
     update_at = models.DateTimeField(blank=True, null=True, default=timezone.now)
     created_at = models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=True)
+
 
     def __str__(self) -> str:
         return self.token

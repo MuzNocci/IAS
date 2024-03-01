@@ -1,3 +1,4 @@
+# IMPORT REQUIREMENTS
 import re
 from authentication import utils
 import datetime
@@ -185,10 +186,10 @@ def valid_type(filename:str, types:list):
 
     for type in types:
         if type == extension:
-            return "True"
+            return True
         
 
-    return "False"
+    return False
 
 
 
